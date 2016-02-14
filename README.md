@@ -15,3 +15,39 @@ _dynamic memory management with the C language_
 7. Prepare for the development of the [Pintos](http://pintos-os.org/) projects.
 8. Develop good coding style.
 
+### Synopsis
+
+_In progress..._
+
+### Submission
+
+_In progress..._
+
+### Grading
+
+_In progress..._
+
+### Compiler
+
+_In progress..._
+
+### Due date
+
+_In progress..._
+
+### Honor code
+
+_In progress..._
+
+### Use of libraries
+
+_In progress..._
+
+### Coding style
+
+_In progress..._
+
+### References
+
+_In progress..._
+
