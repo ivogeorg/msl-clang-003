@@ -31,7 +31,7 @@ An autograding script will run the test suite against your files. Your grade wil
 
 ### Compiler
 
-Your program should run on a **C11** compatible compiler. The tests will be run on _Apple LLVM version 7.0.0 (clang-700.0.72)_.
+Your program should run on a **C11** compatible compiler. Use `gcc` on a Linux server for your school. The test will be run there for grading.
 
 ### Due date
 
@@ -114,7 +114,8 @@ The memory pool will work roughly like the dynamic memory management functions `
    ```
    
    **Behavior & management:**
-   1. Passed 
+   1. Passed to all functions that open, allocate on, dealocate from, and close a pool.
+   2. The metadata contained in the structure is used by the library, so should not be overwritten by the user. It is provided for testing and debugging.
 
 2. Allocation record _(user facing)_
 
@@ -128,6 +129,10 @@ The user is not responsible for deallocating the structure.
       char *mem;
    } alloc_t, *alloc_pt;
    ```
+   
+   **Behavior & management:**
+   1. Passed to the functions that allocate on and dealocate from a given pool.
+   2. **Note:** A pointer to an allocation structure (aka allocation record) is the same as the pointer to the allocated memory!
 
 3. Pool manager _(library static)_
 
@@ -150,6 +155,20 @@ The user is not responsible for deallocating the structure.
    2. The functions which make allocations in a given pool have to pass the pool as their first argument.
    
 4. (Linked-list) node heap _(library static)_
+
+   This is _packed_ linked list which holds nodes for all the segments (allocations or gaps) in a pool, in ascending order by memory address. That is, the first node is always going to point to the segment that starts at the beginning of the pool. This data structure is hidden from the user, except that the `num_allocs` and `num_gaps` variables in the user-facing `pool_t` structure are in sync with the node heap.
+   
+   **Structure:**
+   ```c
+   typedef struct _node {
+      alloc_t alloc_record;
+      unsigned used;
+      unsigned allocated;
+      struct _node *next, *prev; // doubly-linked list for gap deletion
+   } node_t, *node_pt;
+   ```
+   
+   
 
 5. Gap index _(library static)_
 
