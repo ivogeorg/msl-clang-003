@@ -64,8 +64,10 @@ Two guides for implementation of `malloc()`: [here](http://danluu.com/malloc-tut
 ### Detailed Instructions
 
 The memory pool will work roughly like the dynamic memory management functions `malloc, calloc, realloc, free`. Unlike the `*alloc` functions, 
-  * the metadata for allocated blocks will be kept in a separate dynamic memory section, and
-  * there will be multiple independent memory pool to allocate from.
+  * the metadata for allocated blocks will be kept in a separate dynamic memory section;
+  * there will be multiple independent memory pool to allocate from;
+  * the return value is a pointer to a `struct` which contains the memory pointer, rather than the pointer itself;
+  * there is less hiding of (some of) the allocation metadata, to help with debugging and testing.
 
 #### API Functions
 
@@ -90,6 +92,18 @@ The memory pool will work roughly like the dynamic memory management functions `
 #### Data Structures
 
 1. Memory pool (user facing)
+   This is the data structure returned to the user by the call to `mem_pool_open`. The pointer to the allocated memory and the policy are contained in the structure, along with some allocation metadata. The user is not responsible for deallocating the structure.
+   Struct:
+   ```c
+   typedef struct _pool {
+      char *mem;
+      alloc_policy policy;
+      size_t total_size;
+      size_t alloc_size;
+      unsigned num_allocs;
+      unsigned num_gaps;
+   } pool_t, *pool_pt;
+   ```
 
 2. Allocation record (user facing)
 
