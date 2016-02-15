@@ -72,26 +72,33 @@ The memory pool will work roughly like the dynamic memory management functions `
 #### API Functions
 
 1. `alloc_status mem_init();`
+
    This function should be called first and called only once until a corresponding `mem_free()`. It initializes the memory pool (manager) store, a data structure which stores records for separate memory pools.
 
 2. `alloc_status mem_free();`
+
    This function should be called last and called only once for each corresponding `mem_init()`. It frees the pool (manager) store memory.
 
 3. `pool_pt mem_pool_open(size_t size, alloc_policy policy);`
+
    This function allocates a single memory pool from which separate allocations can be performed. It takes a `size` in bytes, and an allocation policy, either `FIRST_FIT` or `BEST_FIT`.
 
 4. `alloc_status mem_pool_close(pool_pt pool);`
+
    This function deallocates a single memory pool.
 
 5. `alloc_pt mem_new_alloc(pool_pt pool, size_t size);`
+
    This function performs a single allocation of `size` in bytes from the given memory pool. Allocations from different memory pools are independent. 
 
 6. `alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc);`
+
    This function deallocates the given allocation from the given memory pool.
 
 #### Data Structures
 
 1. Memory pool _(user facing)_
+
    This is the data structure a pointer to which is returned to the user by the call to `mem_pool_open`. The pointer to the allocated memory and the policy are contained in the structure, along with some allocation metadata. The user passes the pointer to the structure to the allocation/deallocation functions `mem_new_alloc` and `mem_del_alloc`. The user is not responsible for deallocating the structure.
 
    **Structure:**
@@ -107,6 +114,7 @@ The memory pool will work roughly like the dynamic memory management functions `
    ```
 
 2. Allocation record _(user facing)_
+
    This is the data structure a pointer to which is returned to the user for each new allocation from a given pool. Again, the pointer to the allocated memory is in this structure along with the allocated size. The user passes the pointer to the structure and the pointer to the structure of the containing memory pool to the deallocation function `mem_del_alloc`.
 The user is not responsible for deallocating the structure.
 
@@ -119,6 +127,7 @@ The user is not responsible for deallocating the structure.
    ```
 
 3. Pool manager _(library static)_
+
    This is a datastructure that the `mem_pool` library uses to store the private metadata for a single memory pool. It is hidden to the user.
 
    **Structure:**
