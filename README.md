@@ -91,8 +91,8 @@ The memory pool will work roughly like the dynamic memory management functions `
 
 #### Data Structures
 
-1. Memory pool (user facing)
-   This is the data structure returned to the user by the call to `mem_pool_open`. The pointer to the allocated memory and the policy are contained in the structure, along with some allocation metadata. The user is not responsible for deallocating the structure.
+1. Memory pool _(user facing)_
+   This is the data structure a pointer to which is returned to the user by the call to `mem_pool_open`. The pointer to the allocated memory and the policy are contained in the structure, along with some allocation metadata. The user passes the pointer to the structure to the allocation/deallocation functions `mem_new_alloc` and `mem_del_alloc`. The user is not responsible for deallocating the structure.
 
    The structure is defined as follows:
    ```c
@@ -106,15 +106,30 @@ The memory pool will work roughly like the dynamic memory management functions `
    } pool_t, *pool_pt;
    ```
 
-2. Allocation record (user facing)
+2. Allocation record _(user facing)_
+   This is the data structure a pointer to which is returned to the user for each new allocation from a given pool. Again, the pointer to the allocated memory is in this structure along with the allocated size. The user passes the pointer to the structure and the pointer to the structure of the containing memory pool to the deallocation function `mem_del_alloc`.
+The user is not responsible for deallocating the structure.
 
-3. Pool (manager) store (library static)
+   The structure is defined as follows:
+   ```c
+   typedef struct _alloc {
+      size_t size;
+      char *mem;
+   } alloc_t, *alloc_pt;
+   ```
 
-4. Pool manager (library static)
+3. Pool (manager) store _(library static)_
 
-5. (Linked-list) node heap (library static)
+4.```c
+typedef struct _alloc {
+      size_t size;
+      char *mem;
+   } alloc_t, *alloc_pt;
+   ```Pool manager _(library static)_
 
-6. Gap index (library static)
+5. (Linked-list) node heap _(library static)_
+
+6. Gap index _(library static)_
 
 #### Static Functions
 
