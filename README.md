@@ -112,6 +112,9 @@ The memory pool will work roughly like the dynamic memory management functions `
       unsigned num_gaps;
    } pool_t, *pool_pt;
    ```
+   
+   **Behavior & management:**
+   1. Passed 
 
 2. Allocation record _(user facing)_
 
@@ -141,6 +144,7 @@ The user is not responsible for deallocating the structure.
    } pool_mgr_t, *pool_mgr_pt;
    ```
    **Note:** Notice that the user facing `pool_t` structure is at the top of the internal `pool_mgr_t` structure, meaning that the two structures have the same address, and the same pointer points to both. This allows the pointer to the pool received as an argument to the allocation/deallocation functions to be cast to a pool manager pointer.
+
    **Behavior & management:**
    1. The pool manager holds pointers to all the required metadata for the memory allocations for a single pool
    2. The functions which make allocations in a given pool have to pass the pool as their first argument.
