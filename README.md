@@ -93,7 +93,8 @@ The memory pool will work roughly like the dynamic memory management functions `
 
 1. Memory pool (user facing)
    This is the data structure returned to the user by the call to `mem_pool_open`. The pointer to the allocated memory and the policy are contained in the structure, along with some allocation metadata. The user is not responsible for deallocating the structure.
-   Struct:
+
+   The structure is defined as follows:
    ```c
    typedef struct _pool {
       char *mem;
