@@ -35,7 +35,7 @@ Your program should run on a **C11** compatible compiler. The tests will be run 
 
 ### Due date
 
-The assignment is due on **Tue, Mar 1, at 23:59 Mountain time**. The last commit to your PA1 repository before the deadline will be graded.
+The assignment is due on **Sun, Feb 28, at 23:59 Mountain time**. The last commit to your PA1 repository before the deadline will be graded.
 
 ### Honor code
 
@@ -53,5 +53,9 @@ Familiarize yourself with and start following [coding style guide](http://course
 
 ### References
 
-_In progress..._
+A minimal [C Reference](https://cs50.harvard.edu/resources/cppreference.com/), which should be sufficient for your needs.
+
+The [C98 Library Reference](https://www-s.acm.illinois.edu/webmonkeys/book/c_guide/) is more complete.
+
+The [C11 Standard](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf) is just provided for completeness, and you shouldn't need to read it, except peruse it out of curiosity.
 
