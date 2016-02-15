@@ -59,3 +59,39 @@ The [C98 Library Reference](https://www-s.acm.illinois.edu/webmonkeys/book/c_gui
 
 The [C11 Standard](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf) is just provided for completeness, and you shouldn't need to read it, except peruse it out of curiosity.
 
+Two guides for implementation of `malloc()`: [here](http://danluu.com/malloc-tutorial/) and [here](http://www.inf.udec.cl/~leo/Malloc_tutorial.pdf).
+
+### Detailed Instructions
+
+_In progress..._ _In progress..._ _In progress..._ _In progress..._ _In progress..._
+
+#### API Functions
+
+1. `alloc_status mem_init();`
+
+2. `alloc_status mem_free();`
+
+3. `pool_pt mem_pool_open(size_t size, alloc_policy policy);`
+
+4. `alloc_status mem_pool_close(pool_pt pool);`
+
+5. `alloc_pt mem_new_alloc(pool_pt pool, size_t size);`
+
+6. `alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc);`
+
+#### Data Structures
+
+1. Memory pool (user facing)
+
+2. Allocation record (user facing)
+
+3. Pool (manager) store (library static)
+
+4. Pool manager (library static)
+
+5. (Linked-list) node heap (library static)
+
+6. Gap index (library static)
+
+#### Static Functions
+
