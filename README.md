@@ -94,7 +94,7 @@ The memory pool will work roughly like the dynamic memory management functions `
 1. Memory pool _(user facing)_
    This is the data structure a pointer to which is returned to the user by the call to `mem_pool_open`. The pointer to the allocated memory and the policy are contained in the structure, along with some allocation metadata. The user passes the pointer to the structure to the allocation/deallocation functions `mem_new_alloc` and `mem_del_alloc`. The user is not responsible for deallocating the structure.
 
-   The structure is defined as follows:
+   **Structure:**
    ```c
    typedef struct _pool {
       char *mem;
@@ -110,7 +110,7 @@ The memory pool will work roughly like the dynamic memory management functions `
    This is the data structure a pointer to which is returned to the user for each new allocation from a given pool. Again, the pointer to the allocated memory is in this structure along with the allocated size. The user passes the pointer to the structure and the pointer to the structure of the containing memory pool to the deallocation function `mem_del_alloc`.
 The user is not responsible for deallocating the structure.
 
-   The structure is defined as follows:
+   **Structure:**
    ```c
    typedef struct _alloc {
       size_t size;
@@ -121,7 +121,7 @@ The user is not responsible for deallocating the structure.
 3. Pool manager _(library static)_
    This is a datastructure that the `mem_pool` library uses to store the private metadata for a single memory pool. It is hidden to the user.
 
-   The structure is defined as follows:
+   **Structure:**
    ```c
    typedef struct _pool_mgr {
       pool_t pool;
@@ -132,6 +132,9 @@ The user is not responsible for deallocating the structure.
    } pool_mgr_t, *pool_mgr_pt;
    ```
    **Note:** Notice that the user facing `pool_t` structure is at the top of the internal `pool_mgr_t` structure. This allows the pointer to the pool received as an argument to the allocation/deallocation functions to be cast to a pool manager pointer.
+   **Behavior & management:**
+   1. ...
+   2. ...
    
 4. (Linked-list) node heap _(library static)_
 
