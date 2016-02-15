@@ -23,31 +23,33 @@ PA1 is an assignment in the test-driven development (TDD) style. The provided `m
 
 ### Submission
 
-_In progress..._
+You don't need to submit anything. Once you fork the repository (this is your **remote** repository on Github, aka **origin**), you will clone it to your development machine (this is your local repository), and start work on it. Commit your changes to your local repository often and push them up to the remote repository occasionally. Make sure you push at least once before the due date. At the due date, your remote repository will be cloned and tested automatically by the grading script. _**Note:** Your code should be in the **master** branch of your remote repository._
 
 ### Grading
 
-_In progress..._
+An autograding script will run the test suite against your files. Your grade will be based on the number of tests passed. (E.g. if your code passes 3 out of 6 test cases, your score will be 50% and the grade will be the corresponding letter grade in the course's grading scale). **Note:** The testing and grading will be done with fresh original copies of all the provided files. In the course of development, you can modify them, if you need to, but your changes will not be used. Only your <tt>mem_pool.c</tt> file will be used.
 
 ### Compiler
 
-_In progress..._
+Your program should run on a **C11** compatible compiler. The tests will be run on _Apple LLVM version 7.0.0 (clang-700.0.72)_.
 
 ### Due date
 
-_In progress..._
+The assignment is due on **Tue, Mar 1, at 23:59 Mountain time**. The last commit to your PA1 repository before the deadline will be graded.
 
 ### Honor code
 
-_In progress..._
+Free Github repositories are public so you can look at each other's code. Please, don't do that. You can discuss any programming topics and the assignments in general but sharing of solutions diminishes the individual learning experience of many people. Assignments might be randomly checked for plagiarism and a plagiarism claim may be raised against you.
+
+Note that PA1 one is an _individual_ assignment, not a _team_ assignment like the upcoming Pintos assignments.
 
 ### Use of libraries
 
-_In progress..._
+For this assignment, no external libraries should be used, except for the ANSI C Standard Library. The implementation of the data structures should be your own. We will use library implementations of data structures and programming primitives in the Pintos assignments.
 
 ### Coding style
 
-_In progress..._
+Familiarize yourself with and start following [coding style guide](http://courses.cms.caltech.edu/cs11/material/c/mike/misc/c_style_guide.html). While you are not expected to follow every point of it, you should try to follow it enought to get a feel for what is good style and bad style. C code can quickly become [unreadable](http://www.ioccc.org/) and difficult to maintain.
 
 ### References
 
