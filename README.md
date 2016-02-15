@@ -118,18 +118,26 @@ The user is not responsible for deallocating the structure.
    } alloc_t, *alloc_pt;
    ```
 
-3. Pool (manager) store _(library static)_
+3. Pool manager _(library static)_
+   This is a datastructure that the `mem_pool` library uses to store the private metadata for a single memory pool. It is hidden to the user.
 
-4.```c
-typedef struct _alloc {
-      size_t size;
-      char *mem;
-   } alloc_t, *alloc_pt;
-   ```Pool manager _(library static)_
+   The structure is defined as follows:
+   ```c
+   typedef struct _pool_mgr {
+      pool_t pool;
+      node_pt node_heap;
+      unsigned total_nodes;
+      unsigned used_nodes;
+      gap_pt gap_ix;
+   } pool_mgr_t, *pool_mgr_pt;
+   ```
+   **Note:** Notice that the user facing `pool_t` structure is at the top of the internal `pool_mgr_t` structure. This allows the pointer to the pool received as an argument to the allocation/deallocation functions to be cast to a pool manager pointer.
+   
+4. (Linked-list) node heap _(library static)_
 
-5. (Linked-list) node heap _(library static)_
+5. Gap index _(library static)_
 
-6. Gap index _(library static)_
+6. Pool (manager) store _(library static)_
 
 #### Static Functions
 
