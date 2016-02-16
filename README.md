@@ -23,7 +23,9 @@ PA1 is an assignment in the test-driven development (TDD) style. The provided `m
 
 ### Submission
 
-You don't need to submit anything. Once you fork the repository (this is your **remote** repository on Github, aka **origin**), you will clone it to your development machine (this is your local repository), and start work on it. Commit your changes to your local repository often and push them up to the remote repository occasionally. Make sure you push at least once before the due date. At the due date, your remote repository will be cloned and tested automatically by the grading script. _**Note:** Your code should be in the **master** branch of your remote repository._
+You need to submit on the course's chosen learning management system the _url_ of your remote Github repository by the assignment deadline. 
+
+Once you fork the repository (this is your **remote** repository on Github, aka **origin**), you will clone it to your development machine (this is your local repository), and start work on it. Commit your changes to your local repository often and push them up to the remote repository occasionally. Make sure you push at least once before the due date. At the due date, your remote repository will be cloned and tested automatically by the grading script. _**Note:** Your code should be in the **master** branch of your remote repository._
 
 ### Grading
 
@@ -169,14 +171,73 @@ The user is not responsible for deallocating the structure.
    ```
    **Behavior & management:**
    1. This is a linked list allocated as an array of `node__t` structures. If a node has `used` set to 1, it is part of the list; otherwise, it is an unused node which can be used for a new allocation.
-   2. The first node is always present and should always point to the top of the pool, regardless of the type of sector (allocation or gap).
+   2. The first node is always present and should always point to the top segment of the pool, regardless of the type of segment (allocation or gap).
    2. An active list node (`used == 1`) is either an allocation (`allocated == 1`) or a gap (`allocated == 0`).
    3. The list is douly-linked to simplify the deallocation of an allocated sector between two gaps.
-   4. **Note:** Notice that the user-facing allocation record (of type `alloc_t`) is on top of the internal `node_t`, so they have the same address and a pointer to the one points to the other. Of course, the pointer has to be cast to the proper type. For example, the the `alloc_pt` passed by the user as an argument to the `mem_new_alloc` and `mem_del_alloc` has to be cast to `node_pt` before operating with the corresponding linked-list node. 
+   4. **Note:** Notice that the user-facing allocation record (of type `alloc_t`) is on top of the internal `node_t`, so they have the same address and a pointer to the one points to the other. Of course, the pointer has to be cast to the proper type. For example, the the `alloc_pt` passed by the user as an argument to the `mem_new_alloc` and `mem_del_alloc` has to be cast to `node_pt` before operating with the corresponding linked-list node.
+   5. The linked list is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
    
 5. Gap index _(library static)_
 
+   This is a simple array of `gap_t` structures which holds an element for each gap that exists in a given pool and is sorted in an ascending order by size.
+   
+   ```c
+   typedef struct _gap {
+      size_t size;
+      node_pt node;
+   } gap_t, *gap_pt;
+   ```
+   **Behavior & management:**
+   1. The gap entries hold the `size` of the gaps and point to the corresponding nodes in the node heap linke list.
+   2. The array is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
+   3. Use the `num_gaps` variable in the user-facing `pool_t` structure as the size of the array and keep it updated.
+   4. When deleting entries from the array, pull up the entried that follow and update the size. See the corresponding `static` function.
+   5. When adding entries to the array, add at the bottom. See the corresponding `static` function.
+   6. There is a separate `static` function for sorting the array.
+
 6. Pool (manager) store _(library static)_
+
+   This is an array of pointers to `pool_mgr_t` structures and so holds the metadata for multiple pools. See the corresponding `static` variables and functions.
+   
+   **Behavior & management:**
+   1. The array is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
+   2. Since this array contains pointers, they can be `NULL`. The size of the array, for which a `static` variable is used, should be incremented when a new pool is opened and **never** decremented. The pointer to a new pool should always be added to the end of the array. When a pool is closed, the pointer should be set to `NULL`. 
 
 #### Static Functions
 
+The following functions are internal to the library and not exposed to the user. Their names are self-explanatory.
+
+1. `static alloc_status _mem_resize_pool_store();`
+
+   If the pool store's size is within the fill factor of its capacity, expand it by the expand factor using `realloc()`.
+
+2. `static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr);`
+
+   If the node heap's size is within the fill factor of its capacity, expand it by the expand factor using `realloc()`.
+
+3. `static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr);`
+
+   If the gap index's size is within the fill factor of its capacity, expand it by the expand factor using `realloc()`.
+
+4. `static alloc_status _mem_add_to_gap_ix(pool_mgr_pt pool_mgr, size_t size, node_pt node);`
+
+   Add a new entry to the gap index. The entry is gap `size` and `node` pointer to a node on the node heap of the given `pool_mgr`.
+
+5. `static alloc_status _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr, size_t size, node_pt node);`
+
+   Remove an entry from the gap index. The entry is gap `size` and `node` pointer to a node on the node heap of the given `pool_mgr`.
+
+6. `static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr);`
+
+   Sort the gap index in ascending order by size.
+   **Note:** The index always has a length equal to the number of gaps currently in the corresponding pool.
+
+#### Static Variables
+
+The following variables are internal to the library and not exposed to the user. Their names are self-explanatory. They are used to hold the _pool store_ array of pointers to `pool_mgr_t` structures and are manipulated by the user-facing functions `mem_init()`, `mem_pool_open()`, `mem_pool_close()`, and `mem_free()`, and the library static function `_mem_resize_pool_store()`.
+
+```c
+static pool_mgr_pt *pool_store = NULL;
+static unsigned pool_store_size = 0;
+static unsigned pool_store_capacity = 0;
+```
