@@ -53,6 +53,7 @@ mem_new_alloc(pool_pt pool, size_t size);
 alloc_status
 mem_del_alloc(pool_pt pool, alloc_pt alloc);
 
-/* TODO printing functions for debugging & testing */
+void
+mem_print_pool(pool_pt pool, alloc_pt alloc_array, unsigned num_segments);
 
 #endif //DENVER_OS_PA_C_MEM_POOL_H

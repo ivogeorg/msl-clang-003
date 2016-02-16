@@ -104,6 +104,11 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
     return ALLOC_FAIL;
 }
 
+void mem_print_pool(pool_pt pool, alloc_pt alloc_array, unsigned num_segments) {
+    // TODO implement
+}
+
+
 /* Definitions of static functions */
 static alloc_status _mem_resize_pool_store() {
     // TODO implement
