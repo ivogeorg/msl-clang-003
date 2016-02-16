@@ -187,13 +187,19 @@ The user is not responsible for deallocating the structure.
    ```
    **Behavior & management:**
    1. The gap entries hold the `size` of the gaps and point to the corresponding nodes in the node heap linke list.
-   2. The linked list is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
+   2. The array is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
    3. Use the `num_gaps` variable in the user-facing `pool_t` structure as the size of the array and keep it updated.
    4. When deleting entries from the array, pull up the entried that follow and update the size. See the corresponding `static` function.
    5. When adding entries to the array, add at the bottom. See the corresponding `static` function.
    6. There is a separate `static` function for sorting the array.
 
 6. Pool (manager) store _(library static)_
+
+   This is an array of pointers to `pool_mgr_t` structures and so holds the metadata for multiple pools. See the corresponding `static` variables and functions.
+   
+   **Behavior & management:**
+   1. The array is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
+   2. Since this array contains pointers, they can be `NULL`. The size of the array, for which a `static` variable is used, should be incremented when a new pool is opened and **never** decremented. The pointer to a new pool should always be added to the end of the array. When a pool is closed, the pointer should be set to `NULL`. 
 
 #### Static Functions
 
