@@ -180,3 +180,22 @@ The user is not responsible for deallocating the structure.
 
 #### Static Functions
 
+The following functions are internal to the library and not exposed to the user. Their names are self-explanatory.
+
+1. `static alloc_status _mem_resize_pool_store();`
+2. `static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr);`
+3. `static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr);`
+4. ```c
+   static alloc_status
+           _mem_add_to_gap_ix(pool_mgr_pt pool_mgr,
+                              size_t size,
+                              node_pt node);
+   ```
+5. ```c
+   static alloc_status
+           _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr,
+                                   size_t size,
+                                   node_pt node);
+   ```
+6. `static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr);`
+
