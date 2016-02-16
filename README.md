@@ -208,6 +208,22 @@ The user is not responsible for deallocating the structure.
    1. The array is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
    2. Since this array contains pointers, they can be `NULL`. The size of the array, for which a `static` variable is used, should be incremented when a new pool is opened and **never** decremented. The pointer to a new pool should always be added to the end of the array. When a pool is closed, the pointer should be set to `NULL`. 
 
+7. Pool segment _(user facing)_
+
+   This is a simple structure which represents a pool segment, either an allocation or a gap. Used for pool inspection by the user.
+   
+   **Structure:**
+   ```c
+   typedef struct _pool_segment {
+      size_t size;
+      unsigned allocated;
+   } pool_segment_t, *pool_segment_pt;
+   ```
+   
+   **Behavior & management:**
+   1. An array of such structures is returned by the function `mem_inspect_pool()` for testing, printing, and debugging.
+   2. **Note:** The returned array should be freed by the user.
+
 #### Static Functions
 
 The following functions are internal to the library and not exposed to the user. Their names are self-explanatory.
