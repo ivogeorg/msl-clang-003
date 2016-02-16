@@ -54,6 +54,6 @@ alloc_status
 mem_del_alloc(pool_pt pool, alloc_pt alloc);
 
 void
-mem_print_pool(pool_pt pool, alloc_pt alloc_array, unsigned num_segments);
+mem_inspect_pool(pool_pt pool, alloc_pt alloc_array, unsigned *num_segments);
 
 #endif //DENVER_OS_PA_C_MEM_POOL_H

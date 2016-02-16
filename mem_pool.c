@@ -104,7 +104,8 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
     return ALLOC_FAIL;
 }
 
-void mem_print_pool(pool_pt pool, alloc_pt alloc_array, unsigned num_segments) {
+// NOTE: Allocates a dynamic array. Caller responsible for releasing.
+void mem_inspect_pool(pool_pt pool, alloc_pt alloc_array, unsigned *num_segments) {
     // TODO implement
 }
 
