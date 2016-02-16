@@ -183,19 +183,26 @@ The user is not responsible for deallocating the structure.
 The following functions are internal to the library and not exposed to the user. Their names are self-explanatory.
 
 1. `static alloc_status _mem_resize_pool_store();`
+
+   If the pool store's size is within the fill factor of its capacity, expand it by the expand factor using `realloc()`.
+
 2. `static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr);`
+
+   If the node heap's size is within the fill factor of its capacity, expand it by the expand factor using `realloc()`.
+
 3. `static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr);`
-4. ```c
-   static alloc_status
-           _mem_add_to_gap_ix(pool_mgr_pt pool_mgr,
-                              size_t size,
-                              node_pt node);
-   ```
-5. ```c
-   static alloc_status
-           _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr,
-                                   size_t size,
-                                   node_pt node);
-   ```
+
+   If the gap index's size is within the fill factor of its capacity, expand it by the expand factor using `realloc()`.
+
+4. `static alloc_status _mem_add_to_gap_ix(pool_mgr_pt pool_mgr, size_t size, node_pt node);`
+
+   Add a new entry to the gap index. The entry is gap `size` and `node` pointer to a node on the node heap of the given `pool_mgr`.
+
+5. `static alloc_status _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr, size_t size, node_pt node);`
+
+   Remove an entry from the gap index. The entry is gap `size` and `node` pointer to a node on the node heap of the given `pool_mgr`.
+
 6. `static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr);`
 
+   Sort the gap index in ascending order by size.
+   **Note:** The index always has a length equal to the number of gaps currently in the corresponding pool.
