@@ -223,3 +223,13 @@ The following functions are internal to the library and not exposed to the user.
 
    Sort the gap index in ascending order by size.
    **Note:** The index always has a length equal to the number of gaps currently in the corresponding pool.
+
+#### Static Variables
+
+The following variables are internal to the library and not exposed to the user. Their names are self-explanatory. They are used to hold the _pool store_ array of pointers to `pool_mgr_t` structures and are manipulated by the user-facing functions `mem_init()`, `mem_pool_open()`, `mem_pool_close()`, and `mem_free()`, and the library static function `_mem_resize_pool_store()`.
+
+```c
+static pool_mgr_pt *pool_store = NULL;
+static unsigned pool_store_size = 0;
+static unsigned pool_store_capacity = 0;
+```
