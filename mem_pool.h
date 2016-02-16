@@ -25,6 +25,11 @@ typedef struct _alloc {
     char *mem;
 } alloc_t, *alloc_pt;
 
+typedef struct _pool_sector {
+    size_t size;
+    unsigned allocated; // 1-allocation, 0-gap
+} pool_sector_t, *pool_sector_pt;
+
 typedef enum _alloc_status {
     ALLOC_OK,
     ALLOC_FAIL,
@@ -54,6 +59,6 @@ alloc_status
 mem_del_alloc(pool_pt pool, alloc_pt alloc);
 
 void
-mem_inspect_pool(pool_pt pool, alloc_pt alloc_array, unsigned *num_segments);
+mem_inspect_pool(pool_pt pool, pool_sector_pt sectors, unsigned *num_segments);
 
 #endif //DENVER_OS_PA_C_MEM_POOL_H
