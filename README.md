@@ -169,12 +169,29 @@ The user is not responsible for deallocating the structure.
    ```
    **Behavior & management:**
    1. This is a linked list allocated as an array of `node__t` structures. If a node has `used` set to 1, it is part of the list; otherwise, it is an unused node which can be used for a new allocation.
-   2. The first node is always present and should always point to the top of the pool, regardless of the type of sector (allocation or gap).
+   2. The first node is always present and should always point to the top segment of the pool, regardless of the type of segment (allocation or gap).
    2. An active list node (`used == 1`) is either an allocation (`allocated == 1`) or a gap (`allocated == 0`).
    3. The list is douly-linked to simplify the deallocation of an allocated sector between two gaps.
-   4. **Note:** Notice that the user-facing allocation record (of type `alloc_t`) is on top of the internal `node_t`, so they have the same address and a pointer to the one points to the other. Of course, the pointer has to be cast to the proper type. For example, the the `alloc_pt` passed by the user as an argument to the `mem_new_alloc` and `mem_del_alloc` has to be cast to `node_pt` before operating with the corresponding linked-list node. 
+   4. **Note:** Notice that the user-facing allocation record (of type `alloc_t`) is on top of the internal `node_t`, so they have the same address and a pointer to the one points to the other. Of course, the pointer has to be cast to the proper type. For example, the the `alloc_pt` passed by the user as an argument to the `mem_new_alloc` and `mem_del_alloc` has to be cast to `node_pt` before operating with the corresponding linked-list node.
+   5. The linked list is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
    
 5. Gap index _(library static)_
+
+   This is a simple array of `gap_t` structures which holds an element for each gap that exists in a given pool and is sorted in an ascending order by size.
+   
+   ```c
+   typedef struct _gap {
+      size_t size;
+      node_pt node;
+   } gap_t, *gap_pt;
+   ```
+   **Behavior & management:**
+   1. The gap entries hold the `size` of the gaps and point to the corresponding nodes in the node heap linke list.
+   2. The linked list is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
+   3. Use the `num_gaps` variable in the user-facing `pool_t` structure as the size of the array and keep it updated.
+   4. When deleting entries from the array, pull up the entried that follow and update the size. See the corresponding `static` function.
+   5. When adding entries to the array, add at the bottom. See the corresponding `static` function.
+   6. There is a separate `static` function for sorting the array.
 
 6. Pool (manager) store _(library static)_
 
