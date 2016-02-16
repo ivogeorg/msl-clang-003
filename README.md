@@ -186,6 +186,7 @@ The user is not responsible for deallocating the structure.
 
    This is a simple array of `gap_t` structures which holds an element for each gap that exists in a given pool and is sorted in an ascending order by size.
    
+   **Structure:**
    ```c
    typedef struct _gap {
       size_t size;
