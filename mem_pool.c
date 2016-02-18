@@ -70,7 +70,7 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr);
 /* Definitions of user-facing functions */
 alloc_status mem_init() {
     // TODO implement
-
+     //hello
     return ALLOC_FAIL;
 }
 
