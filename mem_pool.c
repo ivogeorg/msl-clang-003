@@ -43,6 +43,7 @@ typedef struct _pool_mgr {
     unsigned total_nodes;
     unsigned used_nodes;
     gap_pt gap_ix;
+    unsigned gap_ix_capacity;
 } pool_mgr_t, *pool_mgr_pt;
 
 
