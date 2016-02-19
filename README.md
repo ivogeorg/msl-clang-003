@@ -153,6 +153,7 @@ The user is not responsible for deallocating the structure.
       unsigned total_nodes;
       unsigned used_nodes;
       gap_pt gap_ix;
+      unsigned gap_ix_capacity;
    } pool_mgr_t, *pool_mgr_pt;
    ```
    **Note:** Notice that the user facing `pool_t` structure is at the top of the internal `pool_mgr_t` structure, meaning that the two structures have the same address, and the same pointer points to both. This allows the pointer to the pool received as an argument to the allocation/deallocation functions to be cast to a pool manager pointer.
@@ -160,6 +161,7 @@ The user is not responsible for deallocating the structure.
    **Behavior & management:**
    1. The pool manager holds pointers to all the required metadata for the memory allocations for a single pool
    2. The functions which make allocations in a given pool have to pass the pool as their first argument.
+   3. The `gap_ix_capacity` is the capacity of the gap index and used to test if the index has to be expanded. If the index is expanded, `gap_ix_capacity` is updated as well.
    
 4. (Linked-list) node heap _(library static)_
 
