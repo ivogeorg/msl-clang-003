@@ -178,7 +178,7 @@ The user is not responsible for deallocating the structure.
    1. This is a linked list allocated as an array of `node__t` structures. If a node has `used` set to 1, it is part of the list; otherwise, it is an unused node which can be used for a new allocation.
    2. The first node is always present and should always point to the top segment of the pool, regardless of the type of segment (allocation or gap).
    2. An active list node (`used == 1`) is either an allocation (`allocated == 1`) or a gap (`allocated == 0`).
-   3. The list is douly-linked to simplify the deallocation of an allocated sector between two gaps.
+   3. The list is doubly-linked to simplify the deallocation of an allocated sector between two gap sectors.
    4. **Note:** Notice that the user-facing allocation record (of type `alloc_t`) is on top of the internal `node_t`, so they have the same address and a pointer to the one points to the other. Of course, the pointer has to be cast to the proper type. For example, the the `alloc_pt` passed by the user as an argument to the `mem_new_alloc` and `mem_del_alloc` has to be cast to `node_pt` before operating with the corresponding linked-list node.
    5. The linked list is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
    
