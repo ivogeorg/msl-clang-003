@@ -33,7 +33,7 @@ typedef struct _pool_segment {
 typedef enum _alloc_status {
     ALLOC_OK,
     ALLOC_FAIL,
-    ALL0C_CALLED_AGAIN,
+    ALLOC_CALLED_AGAIN,
     ALLOC_NOT_FREED
 } alloc_status;
 
