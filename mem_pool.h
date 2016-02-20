@@ -58,6 +58,6 @@ alloc_status
 mem_del_alloc(pool_pt pool, alloc_pt alloc);
 
 void
-mem_inspect_pool(pool_pt pool, pool_segment_pt *segments, unsigned *num_segments);Trivial
+mem_inspect_pool(pool_pt pool, pool_segment_pt *segments, unsigned *num_segments);
 
 #endif //DENVER_OS_PA_C_MEM_POOL_H
