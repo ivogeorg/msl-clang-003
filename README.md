@@ -97,9 +97,11 @@ The memory pool will work roughly like the dynamic memory management functions `
 
    This function deallocates the given allocation from the given memory pool.
 
-7. `void mem_inspect_pool(pool_pt pool, pool_segment_pt segments, unsigned *num_segments);`
+7. `void mem_inspect_pool(pool_pt pool, pool_segment_pt *segments, unsigned *num_segments);`
 
-   This function returns a new dynamically allocated array of the pool `segments` (allocations or gaps) in the order in which they are in the pool. The number of segments is returned in `num_segments`. The caller is responsible for freeing the array.
+   This function returns a new dynamically allocated array of the pool `segments` (allocations or gaps) in the order in which they are in the pool. The number of segments is returned in `num_segments`. The caller is responsible for freeing the array
+   
+   **Note:** Fixed bug in signature: `segments` was a single pointer, and has to be double. Fixed and updated in code.
 
 
 #### Data Structures
