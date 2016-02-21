@@ -1,0 +1,16 @@
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - gap
+      1000 - alloc
+    998900 - gap
+
+   1000000 - gap
+
+status = 0
