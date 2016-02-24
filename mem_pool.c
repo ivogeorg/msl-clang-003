@@ -17,16 +17,16 @@ static const float      MEM_FILL_FACTOR                 = 0.75;
 static const unsigned   MEM_EXPAND_FACTOR               = 2;
 
 static const unsigned   MEM_POOL_STORE_INIT_CAPACITY    = 20;
-static const float      MEM_POOL_STORE_FILL_FACTOR      = MEM_FILL_FACTOR;
-static const unsigned   MEM_POOL_STORE_EXPAND_FACTOR    = MEM_EXPAND_FACTOR;
+static const float      MEM_POOL_STORE_FILL_FACTOR      = 0.75;
+static const unsigned   MEM_POOL_STORE_EXPAND_FACTOR    = 2;
 
 static const unsigned   MEM_NODE_HEAP_INIT_CAPACITY     = 40;
-static const float      MEM_NODE_HEAP_FILL_FACTOR       = MEM_FILL_FACTOR;
-static const unsigned   MEM_NODE_HEAP_EXPAND_FACTOR     = MEM_EXPAND_FACTOR;
+static const float      MEM_NODE_HEAP_FILL_FACTOR       = 0.75;
+static const unsigned   MEM_NODE_HEAP_EXPAND_FACTOR     = 2;
 
 static const unsigned   MEM_GAP_IX_INIT_CAPACITY        = 40;
-static const float      MEM_GAP_IX_FILL_FACTOR          = MEM_FILL_FACTOR;
-static const unsigned   MEM_GAP_IX_EXPAND_FACTOR        = MEM_EXPAND_FACTOR;
+static const float      MEM_GAP_IX_FILL_FACTOR          = 0.75;
+static const unsigned   MEM_GAP_IX_EXPAND_FACTOR        = 2;
 
 
 
@@ -66,6 +66,7 @@ typedef struct _pool_mgr {
 static pool_mgr_pt *pool_store = NULL; // an array of pointers, only expand
 static unsigned pool_store_size = 0;
 static unsigned pool_store_capacity = 0;
+static int init = 0;
 
 
 
@@ -98,8 +99,13 @@ alloc_status mem_init() {
     // ensure that it's called only once until mem_free
     // allocate the pool store with initial capacity
     // note: holds pointers only, other functions to allocate/deallocate
-
-    return ALLOC_FAIL;
+    if (init == 0) {
+        pool_store = (pool_mgr_pt *) calloc(sizeof(pool_mgr_pt) , MEM_POOL_STORE_INIT_CAPACITY);
+        pool_store_capacity = 20;
+        return ALLOC_OK;
+    }
+    init = 1;
+    return ALLOC_CALLED_AGAIN;
 }
 
 alloc_status mem_free() {
@@ -107,12 +113,17 @@ alloc_status mem_free() {
     // make sure all pool managers have been deallocated
     // can free the pool store array
     // update static variables
-
+    if(pool_store != NULL) {
+        free(pool_store);
+        pool_store = NULL;
+        init = 0;
+        return ALLOC_OK;
+    }
     return ALLOC_FAIL;
 }
 
 pool_pt mem_pool_open(size_t size, alloc_policy policy) {
-    // make sure there the pool store is allocated
+    // make sure that the pool store is allocated
     // expand the pool store, if necessary
     // allocate a new mem pool mgr
     // check success, on error return null
