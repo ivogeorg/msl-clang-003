@@ -13,8 +13,8 @@
 /* Constants */
 /*           */
 /*************/
-static const float      MEM_FILL_FACTOR                 = 0.75;
-static const unsigned   MEM_EXPAND_FACTOR               = 2;
+#define     MEM_FILL_FACTOR                  0.75;
+#define     MEM_EXPAND_FACTOR                2;
 
 static const unsigned   MEM_POOL_STORE_INIT_CAPACITY    = 20;
 static const float      MEM_POOL_STORE_FILL_FACTOR      = MEM_FILL_FACTOR;
@@ -98,7 +98,10 @@ alloc_status mem_init() {
     // ensure that it's called only once until mem_free
     // allocate the pool store with initial capacity
     // note: holds pointers only, other functions to allocate/deallocate
-
+    if(!pool_store) {
+        pool_store = (pool_mgr_pt *) malloc(sizeof(pool_mgr_t) * 100);
+        return ALLOC_OK;
+    }
     return ALLOC_FAIL;
 }
 
@@ -107,7 +110,11 @@ alloc_status mem_free() {
     // make sure all pool managers have been deallocated
     // can free the pool store array
     // update static variables
-
+    if(pool_store) {
+        free(pool_store);
+        pool_store = NULL;
+        return ALLOC_OK;
+    }
     return ALLOC_FAIL;
 }
 
@@ -128,8 +135,41 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
     //   initialize pool mgr
     //   link pool mgr to pool store
     // return the address of the mgr, cast to (pool_pt)
+    if(pool_store){
+        pool_mgr_pt   pmt;
+        pmt = (pool_mgr_pt) pool_store;
 
-    return NULL;
+
+        if(pool_store_size == pmt->used_nodes){
+            pool_mgr_t pmgr;
+            if(&pmgr){
+                pool_t pl;
+                if(&pl) {
+                    pmgr.pool = pl;
+                    node_t head;
+                    if(&head) {
+                        pmgr.node_heap = &head;
+                    }else{
+                        free(&head);
+                        free(&pl);
+                        free(&pmgr);
+                        return NULL;
+                    }
+                    pool_mgr_pt pmt = &pmgr;
+                    pool_store = &pmt;
+                }else{
+                    free(&pmgr);
+                    free(&pl);
+                    return NULL;
+                }
+            }else{
+                free(&pmgr);
+                return NULL;
+            }
+
+        }
+    }
+    return (pool_pt) pool_store;
 }
 
 alloc_status mem_pool_close(pool_pt pool) {
@@ -143,6 +183,23 @@ alloc_status mem_pool_close(pool_pt pool) {
     // find mgr in pool store and set to null
     // note: don't decrement pool_store_size, because it only grows
     // free mgr
+
+    pool_mgr_pt pmt = *pool_store;
+
+    if(pool){
+        if(pool->num_allocs > 0) {
+            if (pool->num_gaps > 0) {
+                free(pmt->gap_ix);
+            }
+            free(pool->mem);
+        }
+        free(pmt->node_heap);
+        free(&pmt->pool);
+        free(pmt->gap_ix);
+        free(pmt);
+        pool_store = NULL;
+        return ALLOC_OK;
+    }
 
     return ALLOC_FAIL;
 }

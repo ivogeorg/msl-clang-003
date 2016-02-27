@@ -16,8 +16,13 @@ int main(int argc, char *argv[]) {
     alloc_status status = mem_init();
     assert(status == ALLOC_OK);
     pool = mem_pool_open(POOL_SIZE, FIRST_FIT);
-    assert(pool);
-
+    print_pool(pool);
+    if(pool) {
+        assert(pool);
+    }else{
+        printf("No Pool");
+    }
+    return 0;
     /*
      * Basic allocation scenario:
      *
