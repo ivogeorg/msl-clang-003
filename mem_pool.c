@@ -126,13 +126,14 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
         pool_store = (pool_mgr_pt*) realloc(pool_store, pool_store_capacity * MEM_POOL_STORE_EXPAND_FACTOR * sizeof(pool_mgr_pt));
         pool_store_capacity *= MEM_POOL_STORE_EXPAND_FACTOR;
     };
+
     // allocate a new mem pool mgr
     // check success, on error return null
     pool_mgr_t *pool_manager;
     if(!(pool_manager = (pool_mgr_pt) malloc(sizeof(pool_mgr_t)))){
         return NULL;
     };
-    pool_store[pool_store_size] = pool_manager;
+
     // allocate a new memory pool
     // check success, on error deallocate mgr and return null
     pool_t *pool;
@@ -143,7 +144,7 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
     pool->total_size = size;
     pool->alloc_size = 0;
     pool->policy = policy;
-    pool_manager->pool = *pool;
+
     // allocate a new node heap
     // check success, on error deallocate mgr/pool and return null
     node_t *node_heap;
@@ -152,7 +153,7 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
         free(pool);
         return NULL;
     };
-    pool_manager->node_heap = node_heap;
+
     // allocate a new gap index
     // check success, on error deallocate mgr/pool/heap and return null
     gap_t *gap_ix;
@@ -160,21 +161,30 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
         free(pool_manager);
         free(pool);
         free(node_heap);
+        return NULL;
     };
-    pool_manager->gap_ix = gap_ix;
 
     // assign all the pointers and update meta data:
     //   initialize top node of node heap
+    node_heap->next = NULL;
+    node_heap->prev = NULL;
+    node_heap->allocated = 0;
+    node_heap->used = 1;
 
     //   initialize top node of gap index
+    gap_ix->node = node_heap;
 
     //   initialize pool mgr
+    pool_manager->pool = *pool;
+    pool_manager->node_heap = node_heap;
+    pool_manager->gap_ix = gap_ix;
 
     //   link pool mgr to pool store
+    pool_store[pool_store_size] = pool_manager;
+    pool_store_size++;
 
     // return the address of the mgr, cast to (pool_pt)
-
-    return NULL;
+    return (pool_pt) &pool_store[pool_store_size - 1];
 }
 
 alloc_status mem_pool_close(pool_pt pool) {
