@@ -122,7 +122,7 @@ alloc_status mem_free() {
 pool_pt mem_pool_open(size_t size, alloc_policy policy) {
     // make sure that the pool store is allocated
     // expand the pool store, if necessary
-    if(pool_store_capacity == pool_store_size){
+    if( (pool_store_size / pool_store_capacity) > MEM_POOL_STORE_FILL_FACTOR){
         pool_store = (pool_mgr_pt*) realloc(pool_store, pool_store_capacity * MEM_POOL_STORE_EXPAND_FACTOR * sizeof(pool_mgr_pt));
         pool_store_capacity *= MEM_POOL_STORE_EXPAND_FACTOR;
     };
@@ -141,9 +141,11 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
         free(pool_manager);
         return NULL;
     };
+    printf("%zu \n", size);
     pool->total_size = size;
     pool->alloc_size = 0;
     pool->policy = policy;
+    //pool->mem = ?;
 
     // allocate a new node heap
     // check success, on error deallocate mgr/pool and return null
@@ -170,41 +172,75 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
     node_heap->prev = NULL;
     node_heap->allocated = 0;
     node_heap->used = 1;
+    node_heap->alloc_record.size = pool->alloc_size;
+    node_heap->alloc_record.mem = pool->mem;
 
-    //   initialize top node of gap index
+    //   initialize top node of gap index ALLOC_FAIL
     gap_ix->node = node_heap;
 
     //   initialize pool mgr
     pool_manager->pool = *pool;
+    printf("%u \n", pool->num_gaps);
     pool_manager->node_heap = node_heap;
+    pool_manager->total_nodes = 1;
+    pool_manager->used_nodes = 0;
+    printf("%u \n",node_heap->used );
     pool_manager->gap_ix = gap_ix;
+    pool_manager->gap_ix_capacity = MEM_GAP_IX_INIT_CAPACITY;
+
 
     //   link pool mgr to pool store
     pool_store[pool_store_size] = pool_manager;
     pool_store_size++;
-
+    printf("%u \n",pool_store[pool_store_size - 1]->gap_ix_capacity);
+    printf("%u \n", pool_store_size);
     // return the address of the mgr, cast to (pool_pt)
     return (pool_pt) &pool_store[pool_store_size - 1];
 }
 
 alloc_status mem_pool_close(pool_pt pool) {
     // get mgr from pool by casting the pointer to (pool_mgr_pt)
+    pool_mgr_pt pool_mgr = (pool_mgr_pt) pool;
     // check if this pool is allocated
+    if(!pool_mgr->pool.alloc_size){
+       printf("Pool not allocated");
+    };
+    printf("Allocated with size %zu \n", pool_mgr->pool.alloc_size);
     // check if pool has only one gap
+    if(pool_mgr->gap_ix->size == 1){
+        printf("Only one gap in pool");
+    }
     // check if it has zero allocations
+    if(pool_mgr->pool.num_allocs == 0){
+        printf("Number of pool allocations = 0");
+    }
     // free memory pool
+    free(&pool_mgr->pool);
     // free node heap
+    free(pool_mgr->node_heap);
     // free gap index
+    free(pool_mgr->gap_ix);
     // find mgr in pool store and set to null
+    for(int i = 0;i<pool_store_capacity;i++){
+      if(pool_store[i] == pool_mgr){
+          pool_store[i] = NULL;
+      };
+    };
     // note: don't decrement pool_store_size, because it only grows
+    pool_store_size --;
     // free mgr
+    free(pool_mgr);
 
-    return ALLOC_FAIL;
+    return ALLOC_OK;
 }
 
 alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
     // get mgr from pool by casting the pointer to (pool_mgr_pt)
+    pool_mgr_pt pool_mgr = (pool_mgr_pt) pool;
     // check if any gaps, return null if none
+    if(pool_mgr->gap_ix->size == 0){
+        return NULL;
+    };
     // expand heap node, if necessary, quit on error
     // check used nodes fewer than total nodes, quit on error
     // get a node for allocation:
@@ -285,8 +321,17 @@ void mem_inspect_pool(pool_pt pool,
                       pool_segment_pt *segments,
                       unsigned *num_segments) {
     // get the mgr from the pool
+    pool_mgr_pt pool_mgr = (pool_mgr_pt) pool;
+
     // allocate the segments array with size == used_nodes
     // check successful
+
+    if(!(segments = (pool_segment_pt *) calloc(pool_mgr->used_nodes, sizeof(pool_segment_t)))){
+        printf("Failed allocation of segments array");
+    };
+    printf("Successfull allocation of segments array");
+
+
     // loop through the node heap and the segments array
     //    for each node, write the size and allocated in the segment
     // "return" the values:
@@ -305,24 +350,42 @@ void mem_inspect_pool(pool_pt pool,
 /***********************************/
 static alloc_status _mem_resize_pool_store() {
     // check if necessary
-    /*
-                if (((float) pool_store_size / pool_store_capacity)
-                    > MEM_POOL_STORE_FILL_FACTOR) {...}
-     */
     // don't forget to update capacity variables
+    if (((float) pool_store_size / pool_store_capacity)
+                    > MEM_POOL_STORE_FILL_FACTOR) {
+                    if(pool_store = (pool_mgr_pt*) realloc(pool_store,
+                                                        pool_store_capacity * MEM_POOL_STORE_EXPAND_FACTOR * sizeof(pool_mgr_pt))){
+                        pool_store_capacity *= MEM_POOL_STORE_EXPAND_FACTOR;
+                        return ALLOC_OK;
+                    };
 
+                };
     return ALLOC_FAIL;
 }
 
 static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr) {
     // see above
 
+    if (((float) pool_mgr->node_heap->used / pool_mgr->node_heap->alloc_record.size) > MEM_NODE_HEAP_FILL_FACTOR){
+        if((pool_mgr->node_heap = (node_pt) realloc(pool_mgr->node_heap,
+                                                MEM_NODE_HEAP_EXPAND_FACTOR * MEM_NODE_HEAP_INIT_CAPACITY * sizeof(pool_mgr->node_heap)))){
+            pool_mgr->node_heap->alloc_record.size *= MEM_NODE_HEAP_EXPAND_FACTOR;
+            return ALLOC_OK;
+        };
+    };
     return ALLOC_FAIL;
 }
 
 static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr) {
     // see above
+    if(((float)pool_mgr->gap_ix->size / pool_mgr->gap_ix_capacity) > MEM_GAP_IX_FILL_FACTOR){
 
+        if((pool_mgr->gap_ix = (gap_pt) realloc(pool_mgr->gap_ix,
+                                                MEM_GAP_IX_EXPAND_FACTOR * MEM_GAP_IX_INIT_CAPACITY * sizeof(pool_mgr->gap_ix)))){
+            pool_mgr->gap_ix_capacity *= MEM_GAP_IX_EXPAND_FACTOR;
+            return ALLOC_OK;
+        };
+    };
     return ALLOC_FAIL;
 }
 
