@@ -13,8 +13,8 @@
 /* Constants */
 /*           */
 /*************/
-#define      MEM_FILL_FACTOR                 = 0.75;
-#define   MEM_EXPAND_FACTOR               = 2;
+#define     MEM_FILL_FACTOR     0.75
+#define     MEM_EXPAND_FACTOR   2
 
 static const unsigned   MEM_POOL_STORE_INIT_CAPACITY    = 20;
 static const float      MEM_POOL_STORE_FILL_FACTOR      = MEM_FILL_FACTOR;
