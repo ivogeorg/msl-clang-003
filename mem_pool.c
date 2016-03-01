@@ -77,14 +77,8 @@ static unsigned pool_store_capacity = 0;
 static alloc_status _mem_resize_pool_store();
 static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr);
 static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr);
-static alloc_status
-        _mem_add_to_gap_ix(pool_mgr_pt pool_mgr,
-                           size_t size,
-                           node_pt node);
-static alloc_status
-        _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr,
-                                size_t size,
-                                node_pt node);
+static alloc_status _mem_add_to_gap_ix(pool_mgr_pt pool_mgr, size_t size, node_pt node);
+static alloc_status _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr, size_t size, node_pt node);
 static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr);
 
 
@@ -226,9 +220,7 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
     return ALLOC_FAIL;
 }
 
-void mem_inspect_pool(pool_pt pool,
-                      pool_segment_pt *segments,
-                      unsigned *num_segments) {
+void mem_inspect_pool(pool_pt pool, pool_segment_pt *segments, unsigned *num_segments) {
     // get the mgr from the pool
     // allocate the segments array with size == used_nodes
     // check successful
@@ -271,9 +263,7 @@ static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr) {
     return ALLOC_FAIL;
 }
 
-static alloc_status _mem_add_to_gap_ix(pool_mgr_pt pool_mgr,
-                                       size_t size,
-                                       node_pt node) {
+static alloc_status _mem_add_to_gap_ix(pool_mgr_pt pool_mgr, size_t size, node_pt node) {
 
     // expand the gap index, if necessary (call the function)
     // add the entry at the end
@@ -284,9 +274,7 @@ static alloc_status _mem_add_to_gap_ix(pool_mgr_pt pool_mgr,
     return ALLOC_FAIL;
 }
 
-static alloc_status _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr,
-                                            size_t size,
-                                            node_pt node) {
+static alloc_status _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr, size_t size, node_pt node) {
     // find the position of the node in the gap index
     // loop from there to the end of the array:
     //    pull the entries (i.e. copy over) one position up
