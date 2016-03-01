@@ -1,5 +1,7 @@
 /*
-* Created by Ivo Georgiev on 2/9/16.
+* ORIGINAL WAS Created by Ivo Georgiev on 2/9/16.
+* TESTED VERSION Created by Tegan Straley on 2/29/2016
+*         for Operating Systems CSCI 3453, SPRING 2016
 */
 
 #include <stdlib.h>
@@ -16,9 +18,6 @@
 /*************/
 #define MEM_FILL_FACTOR   0.75;
 #define MEM_EXPAND_FACTOR 2;
-
-//static const float      MEM_FILL_FACTOR                 = 0.75;
-//static const unsigned   MEM_EXPAND_FACTOR               = 2;
 
 static const unsigned   MEM_POOL_STORE_INIT_CAPACITY = 20;
 static const float      MEM_POOL_STORE_FILL_FACTOR = MEM_FILL_FACTOR;
@@ -167,7 +166,6 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
      // then we'd use realloc and get a larger # of pool_mgr_pt in our pool_store
      // that's what we originally allocated in mem_init())
      if (pool_store_size == pool_store_capacity) {
-          printf("mem_pool_open: increase the size of the pool_store\n");
           pool_store = realloc(pool_store, (pool_store_capacity + MEM_POOL_STORE_INIT_CAPACITY) * sizeof(pool_mgr_pt));
           if (pool_store == NULL) {
                return NULL;
@@ -177,7 +175,6 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
 
      // allocate a new mem pool mgr
      // check success, on error return null
-     printf("mem_pool_open: allocating new mem pool manager\n");
      mem_pool_mgr = malloc(sizeof(pool_mgr_t));
      if (mem_pool_mgr == NULL) {
           printf("ERROR: mem_pool_open can't allocate new mem pool manager\n");
@@ -186,7 +183,6 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
 
      // allocate a new memory pool
      // check success, on error deallocate mgr and return null
-     printf("mem_pool_open: allocating new memory pool\n");
      mem_pool_mgr->pool.policy = policy;
      mem_pool_mgr->pool.mem = malloc(size);
      mem_pool_mgr->pool.total_size = size;
@@ -200,7 +196,6 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
 
      // allocate a new node heap
      // check success, on error deallocate mgr/pool and return null
-     printf("mem_pool_open: allocating new node heap\n");
      mem_pool_mgr->node_heap = malloc(sizeof(node_t) * MEM_NODE_HEAP_INIT_CAPACITY);
      if (mem_pool_mgr->node_heap == NULL) {
           free(mem_pool_mgr->pool.mem);
@@ -222,7 +217,6 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
 
      // allocate a new gap index
      // check success, on error deallocate mgr/pool/heap and return null
-     printf("mem_pool_open: allocating new gap index\n");
      mem_pool_mgr->gap_ix = malloc(sizeof(gap_t) * MEM_GAP_IX_INIT_CAPACITY);
      if (mem_pool_mgr->gap_ix == NULL) {
           free(mem_pool_mgr->pool.mem);
@@ -249,12 +243,10 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
      
      //   link pool mgr to pool store (find the first open slot)
      int ps_idx = 0;
-     for (ps_idx = 0;
-          ps_idx < pool_store_capacity && (*(pool_store + ps_idx) != NULL);
-          ps_idx++) {
+    // for (ps_idx = 0; ps_idx < pool_store_capacity && (*(pool_store + ps_idx) != NULL);
+    //      ps_idx++) {
           //printf("loop: ps_idx = %d\n", ps_idx);
-     }
-     printf("mem_pool_open: available pool store index = %d\n", ps_idx);
+    // }
      pool_store[ps_idx] = mem_pool_mgr;
      pool_store_size++;
 
@@ -282,11 +274,15 @@ alloc_status mem_pool_close(pool_pt pool) {
      }
      if (num_gaps > 1) {
           // Something's off if there's memory in use (more than one gap)
+          //(the pool only has 1 gap when it's ready to close)
           return ALLOC_FAIL;
      }
 
      // check if it has zero allocations
-
+     if (mem_pool_mgr->pool.num_allocs != 0){
+          printf("ERROR : more than 0 allocations when trying to close : %d \n", mem_pool_mgr->pool.num_allocs);
+          return ALLOC_FAIL;
+     }
 
      // free memory pool
      free(pool->mem);
@@ -320,7 +316,6 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
      gap_pt good_gap = NULL;
 
      for (int i = 0; i < mem_pool_mgr->gap_ix_capacity && good_gap == NULL; i++){
-          printf("mem_new_alloc checking gap= %d , size%d\n", gap, gap->size);
           if (gap->size >= size){
                good_gap = gap;
           }
@@ -332,6 +327,15 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
 
      // expand node heap, if necessary, quit on error
      printf("TODO expand node heap\n");
+     printf("USED NODES %d\n", mem_pool_mgr->used_nodes);
+     printf("TOTAL NODES %d\n", mem_pool_mgr->total_nodes);
+     if (mem_pool_mgr->used_nodes >= (mem_pool_mgr->total_nodes)) { //multiply by fill factor to get 75%??
+          node_pt new_node_heap = (node_pt) realloc(mem_pool_mgr->node_heap, (mem_pool_mgr->total_nodes * MEM_NODE_HEAP_EXPAND_FACTOR * sizeof(node_t)));
+          if (new_node_heap != NULL ){
+               free(mem_pool_mgr->node_heap);
+               mem_pool_mgr->node_heap = new_node_heap;
+          }//end of if
+     }//end of if
 
      // check used nodes fewer than total nodes, quit on error
      if (mem_pool_mgr->used_nodes >= mem_pool_mgr->total_nodes){
@@ -348,7 +352,7 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
                if (node->alloc_record.size >= size && node->allocated == 0){
                     node_to_use = node;
                }
-          }
+          }//end of for
      }
      else{
           gap_pt gap = mem_pool_mgr->gap_ix;
@@ -366,8 +370,6 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
           return NULL;
      }
 
-
-
      // update metadata (num_allocs, alloc_size)
      pool->num_allocs += 1;
      pool->alloc_size += size;
@@ -380,9 +382,6 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
      good_gap->node = NULL;
     
      // convert gap_node to an allocation node of given size
-     printf("TODO convert gap_node crap\n");
-
-     //TODO where to put this we used the node
      node_to_use->allocated = 1;
      node_to_use->alloc_record.size = size;
 
@@ -391,14 +390,12 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
      node_pt unused_node = NULL;
 
      if (remaining_gap > 0){
-
-
           //   find an unused one in the node heap
           for (node_pt node = mem_pool_mgr->node_heap; node != NULL && unused_node == NULL; node = node->next){
                if (node->allocated == 0){
                     unused_node = node;
                }
-          }
+          }//end of for
 
           //   make sure one was found
           if (unused_node == NULL){
@@ -425,9 +422,9 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
           //   check if successful
 
 
-     }
-     // return allocation record by casting the node to (alloc_pt)
+     }//end of if
 
+     // return allocation record by casting the node to (alloc_pt)
      return (alloc_pt) node_to_use;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -522,8 +519,10 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
           //   check success NO
 
           //   add the size of node-to-delete to the previous
+          printf("node_to_delete->alloc_record.size : %d\n", node_to_delete->alloc_record.size);
           printf("prev_node->alloc_record.size : %d\n", prev_node->alloc_record.size);
           node_to_delete->alloc_record.size += prev_node->alloc_record.size;
+          printf("SHOULD BE 1000000 node_to_delete->alloc_record.size : %d\n", node_to_delete->alloc_record.size);
 
           //   update node as unused
           node_to_delete->used = 0;
