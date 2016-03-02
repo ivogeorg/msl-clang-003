@@ -129,7 +129,6 @@ alloc_status mem_free(){
      for (int i = 0; i < pool_store_capacity; i++) {
           if (pool_store[i] != NULL && !pool_manager_allocated) {
                // Found an allocated pool manager
-               printf("mem_free: pool manager still allocated at i=%d\n", i);
                pool_manager_allocated = 1;
           }
      }
@@ -295,7 +294,6 @@ alloc_status mem_pool_close(pool_pt pool) {
      for (int i = 0; i < pool_store_capacity; i++) {
           if (pool_store[i] == mem_pool_mgr) {
                // Found the pool manager
-               printf("mem_pool_close: found pool manager at i=%d\n", i);
                pool_store[i] = NULL;
           }
      }
@@ -327,8 +325,6 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
 
      // expand node heap, if necessary, quit on error
      printf("TODO expand node heap\n");
-     printf("USED NODES %d\n", mem_pool_mgr->used_nodes);
-     printf("TOTAL NODES %d\n", mem_pool_mgr->total_nodes);
      if (mem_pool_mgr->used_nodes >= (mem_pool_mgr->total_nodes)) { //multiply by fill factor to get 75%??
           node_pt new_node_heap = (node_pt) realloc(mem_pool_mgr->node_heap, (mem_pool_mgr->total_nodes * MEM_NODE_HEAP_EXPAND_FACTOR * sizeof(node_t)));
           if (new_node_heap != NULL ){
@@ -348,7 +344,6 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
      node_pt node_to_use = NULL;
      if (pool->policy == FIRST_FIT){
           for (node_pt node = mem_pool_mgr->node_heap; node != NULL && node_to_use == NULL; node = node->next){
-               printf("used %d, allocated %d, size %d \n", node->used, node->allocated, node->alloc_record.size);
                if (node->alloc_record.size >= size && node->allocated == 0){
                     node_to_use = node;
                }
@@ -376,7 +371,6 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
 
      // calculate the size of the remaining gap, if any
      size_t remaining_gap = node_to_use->alloc_record.size - size;
-     printf("remaining gap : %d\n", remaining_gap);
 
      // remove node from gap index
      good_gap->node = NULL;
@@ -456,11 +450,7 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
 
      // update metadata (num_allocs, alloc_size)
      mem_pool_mgr->pool.num_allocs -= 1;
-
-     printf("mem_del_alloc BEFORE alloc_size = %d\n", mem_pool_mgr->pool.alloc_size);
      mem_pool_mgr->pool.alloc_size = (mem_pool_mgr->pool.alloc_size - alloc->size);
-     printf("mem_del_alloc alloc->size = %d\n", alloc->size);
-     printf("mem_del_alloc mem_pool_mgr->pool.alloc_size = %d\n", mem_pool_mgr->pool.alloc_size);
 
      // if the next node in the list is also a gap, merge into node-to-delete
      node_pt next_node = node_to_delete->next;
@@ -479,7 +469,6 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
           //   check success NO
 
           //   add the size to the node-to-delete
-          printf("next_node->alloc_record.size : %d\n", next_node->alloc_record.size);
           node_to_delete->alloc_record.size += next_node->alloc_record.size;
 
           //   update node as unused
@@ -519,10 +508,7 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
           //   check success NO
 
           //   add the size of node-to-delete to the previous
-          printf("node_to_delete->alloc_record.size : %d\n", node_to_delete->alloc_record.size);
-          printf("prev_node->alloc_record.size : %d\n", prev_node->alloc_record.size);
-          node_to_delete->alloc_record.size += prev_node->alloc_record.size;
-          printf("SHOULD BE 1000000 node_to_delete->alloc_record.size : %d\n", node_to_delete->alloc_record.size);
+          prev_node->alloc_record.size += node_to_delete->alloc_record.size;
 
           //   update node as unused
           node_to_delete->used = 0;
@@ -555,7 +541,6 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
           gap++;
      }//end of for
      available_gap->node = node_to_delete;
-     printf("node_to_delete->alloc_record.size : %d\n", node_to_delete->alloc_record.size);
      available_gap->size = node_to_delete->alloc_record.size;
 
      // check success
@@ -614,12 +599,24 @@ static alloc_status _mem_resize_pool_store() {
 
 static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr) {
      // see above
+	 // check if necessary
+	 /*
+	 if (((float) pool_store_size / pool_store_capacity)
+	 > MEM_POOL_STORE_FILL_FACTOR) {...}
+	 */
+	 // don't forget to update capacity variables
 
      return ALLOC_FAIL;
 }
 
 static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr) {
      // see above
+	 // check if necessary
+	 /*
+	 if (((float) pool_store_size / pool_store_capacity)
+	 > MEM_POOL_STORE_FILL_FACTOR) {...}
+	 */
+	 // don't forget to update capacity variables
 
      return ALLOC_FAIL;
 }
