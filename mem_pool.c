@@ -1,5 +1,6 @@
 /*
  * Created by Ivo Georgiev on 2/9/16.
+ * Modified by Matthew Brake 3/2/16.
  */
 
 #include <stdlib.h>
@@ -28,8 +29,6 @@ static const unsigned   MEM_GAP_IX_INIT_CAPACITY        = 40;
 static const float      MEM_GAP_IX_FILL_FACTOR          = 0.75;
 static const unsigned   MEM_GAP_IX_EXPAND_FACTOR        = 2;
 
-
-
 /*********************/
 /*                   */
 /* Type declarations */
@@ -56,8 +55,6 @@ typedef struct _pool_mgr {
     unsigned gap_ix_capacity;
 } pool_mgr_t, *pool_mgr_pt;
 
-
-
 /***************************/
 /*                         */
 /* Static global variables */
@@ -66,8 +63,6 @@ typedef struct _pool_mgr {
 static pool_mgr_pt *pool_store = NULL; // an array of pointers, only expand
 static unsigned pool_store_size = 0;
 static unsigned pool_store_capacity = 0;
-
-
 
 /********************************************/
 /*                                          */
@@ -86,8 +81,6 @@ static alloc_status
                                 size_t size,
                                 node_pt node);
 static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr);
-
-
 
 /****************************************/
 /*                                      */
@@ -202,16 +195,12 @@ alloc_status mem_pool_close(pool_pt pool) {
     pool_mgr_pt pool_mgr = (pool_mgr_pt) pool;
     // check if this pool is allocated
     if(!pool_mgr->pool.alloc_size){
-       // printf("Pool not allocated");
     };
-    // printf("Allocated with size %zu \n", pool_mgr->pool.alloc_size);
     // check if pool has only one gap
     if(pool_mgr->gap_ix->size == 1){
-        // printf("Only one gap in pool");
     }
     // check if it has zero allocations
     if(pool_mgr->pool.num_allocs == 0){
-        // printf("Number of pool allocations = 0");
     }
     // free memory pool
     free(&pool_mgr->pool);
@@ -321,18 +310,12 @@ void mem_inspect_pool(pool_pt pool,
     // get the mgr from the pool
     pool_mgr_pt pool_mgr = (pool_mgr_pt) pool;
 
-    printf("%zu \n", pool->total_size);
-
     // allocate the segments array with size == used_nodes
     // check successful
-
     pool_segment_pt segs;
-
     if(!(segs = (pool_segment_pt) calloc(pool_mgr->used_nodes, sizeof(pool_segment_t)))){
         printf("Failed allocation of segments array \n");
     };
-    printf("Successfull allocation of segments array \n");
-
 
     // loop through the node heap and the segments array
     //    for each node, write the size and allocated in the segment
@@ -345,8 +328,6 @@ void mem_inspect_pool(pool_pt pool,
     *segments = segs;
     *num_segments = pool_mgr->used_nodes;
 }
-
-
 
 /***********************************/
 /*                                 */
@@ -369,7 +350,6 @@ static alloc_status _mem_resize_pool_store() {
 
 static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr) {
     // see above
-
     if (((float) pool_mgr->node_heap->used / pool_mgr->node_heap->alloc_record.size) > MEM_NODE_HEAP_FILL_FACTOR){
         if((pool_mgr->node_heap = (node_pt) realloc(pool_mgr->node_heap,
                                                 MEM_NODE_HEAP_EXPAND_FACTOR * MEM_NODE_HEAP_INIT_CAPACITY * sizeof(pool_mgr->node_heap)))){
@@ -396,7 +376,6 @@ static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr) {
 static alloc_status _mem_add_to_gap_ix(pool_mgr_pt pool_mgr,
                                        size_t size,
                                        node_pt node) {
-
     // expand the gap index, if necessary (call the function)
     _mem_resize_gap_ix(pool_mgr);
     // add the entry at the end
@@ -420,8 +399,23 @@ static alloc_status _mem_remove_from_gap_ix(pool_mgr_pt pool_mgr,
     // loop from there to the end of the array:
     //    pull the entries (i.e. copy over) one position up
     //    this effectively deletes the chosen node
+    int position;
+    for(int i=0; i < pool_mgr->pool.num_gaps; i++){
+        if(pool_mgr->gap_ix[i].node == node){
+            position = 1;
+        }
+    }
+    while(pool_mgr->gap_ix[position + 1].node != NULL){
+        pool_mgr->gap_ix[position].node = pool_mgr->gap_ix[position + 1].node;
+        position++;
+    };
+
     // update metadata (num_gaps)
+    pool_mgr->pool.num_gaps--;
+
     // zero out the element at position num_gaps!
+    gap_t empty;
+    pool_mgr->gap_ix[pool_mgr->pool.num_gaps] = empty;
 
     return ALLOC_FAIL;
 }
