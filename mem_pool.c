@@ -318,7 +318,6 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
         alloc_node->next = gap_node;
         gap_node->next = NULL;
         gap_node->prev = alloc_node;
-        pool_mgr->used_nodes++;
     };
     //added in-between nodes
     if (alloc_node->next != NULL) {
@@ -326,7 +325,6 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
         gap_node->prev = alloc_node;
         alloc_node->next->prev = gap_node;
         alloc_node->next = gap_node;
-        pool_mgr->used_nodes++;
     };
 
     //   add to gap index
