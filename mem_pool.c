@@ -355,8 +355,11 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
        if(pool_mgr->node_heap[i].alloc_record.mem == node->alloc_record.mem){
            // this is node-to-delete
            node_to_delete = &pool_mgr->node_heap[i];
+           break;
         };
     };
+
+    // printf("node_to_delete size: %zu \n",node_to_delete->alloc_record.size);
 
     // make sure it's found
     if(node_to_delete == NULL){
