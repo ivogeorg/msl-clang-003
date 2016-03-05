@@ -57,13 +57,13 @@ int main(int argc, char *argv[]) {
 
      
 
-     int numAllocPtr = 50;
+     int numAllocPtr = 100;
 
      alloc_pt allocPointers[numAllocPtr];
     
      int i;
      for (i = 0; i < numAllocPtr; i++){
-          allocPointers[i] = mem_new_alloc(pool, 100);
+          allocPointers[i] = mem_new_alloc(pool, 10000);
           assert(allocPointers[i]);
 
           print_pool(pool);

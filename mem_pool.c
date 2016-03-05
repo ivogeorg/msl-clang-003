@@ -449,7 +449,7 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
 
      // if the next node in the list is also a gap, merge into node-to-delete
      node_pt next_node = node_to_delete->next;
-     if (next_node != NULL && next_node->allocated == 0 && next_node->used == 1){
+     if (next_node != NULL && next_node->allocated == 0 && next_node->used == 1 && next_node->alloc_record.size > 0){
           //   remove the next node from gap index
           int found_gap = 0;
           gap_pt gap = mem_pool_mgr->gap_ix;
@@ -597,7 +597,8 @@ static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr) {
 
                // Since we're adding a chunk of nodes, link them onto the old list
                node_pt last_node = pool_mgr->node_heap;
-               for (node_pt node = pool_mgr->node_heap; node->next != NULL; node = node->next) {
+               node_pt node;
+               for (node = pool_mgr->node_heap; node->next != NULL; node = node->next) {
                     last_node = node;
                }
                last_node->next = new_node_heap;
@@ -605,7 +606,8 @@ static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr) {
                // Initialize the new nodes and link them together (as we did at the beginning)
                node_pt prev_node = NULL;
                node_pt this_node = new_node_heap;
-               for (int i = 0; i < new_node_count; i++){
+               int i;
+               for (i = 0; i < new_node_count; i++){
                     this_node->used = 1;
                     this_node->allocated = 0;
                     this_node->alloc_record.size = 0;
