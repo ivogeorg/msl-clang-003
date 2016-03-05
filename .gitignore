@@ -34,3 +34,5 @@
 # Jet Brains
 .idea
 
+./build
+./*.stackdump
