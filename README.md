@@ -267,3 +267,12 @@ static pool_mgr_pt *pool_store = NULL;
 static unsigned pool_store_size = 0;
 static unsigned pool_store_capacity = 0;
 ```
+
+* * *
+
+### TODO
+
+_this section concerns future editions of the project_
+
+1. Redesign/refactor to return the _memory allocation address (mem)_ to the user from `mem_new_alloc` instead of the allocation record address. The allocation record is embedded in the linked list node, so when the node heap is reallocated, the nodes' (and, thus, the allocation records') addresses shift. The internal infrastructure only requires an adjustment of the linked list pointers and the gap index node pointers, but the allocation record addresses the user has are invalidated. So _mem_ should be returned and not _alloc_.
+
