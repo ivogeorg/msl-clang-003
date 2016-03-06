@@ -275,6 +275,17 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
     };
 
     // if BEST_FIT, then find the first sufficient node in the gap index
+    if(pool_mgr->pool.policy == BEST_FIT){
+        for (int i = 0; i < pool_mgr->total_nodes; i++) {
+            if (pool_mgr->node_heap[i].alloc_record.size >= size && pool_mgr->node_heap[i].allocated == 0) {
+                if (alloc_node != NULL && pool_mgr->node_heap[i].alloc_record.size < alloc_node->alloc_record.size){
+                    alloc_node = &pool_mgr->node_heap[i];
+                }else{
+                    alloc_node = &pool_mgr->node_heap[i];
+                };
+            };
+        };
+    };
 
     // check if node found
     if (alloc_node == NULL) {
