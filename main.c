@@ -16,13 +16,7 @@ int main(int argc, char *argv[]) {
     alloc_status status = mem_init();
     assert(status == ALLOC_OK);
     pool = mem_pool_open(POOL_SIZE, FIRST_FIT);
-    print_pool(pool);
-    if(pool) {
-        assert(pool);
-    }else{
-        printf("No Pool");
-    }
-    return 0;
+
     /*
      * Basic allocation scenario:
      *
@@ -32,47 +26,54 @@ int main(int argc, char *argv[]) {
      * 4. Deallocate the 100 allocation. Now gaps on both sides of 1000.
      * 4. Deallocate the 1000 allocation. Pool is again one single gap.
      */
-
-
+    printf("\n\nNUMBER OF GAPS %d\n",pool->num_gaps);
     print_pool(pool);
+
 
     // + alloc-0
     alloc_pt alloc0 = mem_new_alloc(pool, 100);
     assert(alloc0);
 
+    printf("\n\nNUMBER OF GAPS %d\n\n",pool->num_gaps);
     print_pool(pool);
+
 
     // + alloc-1
     alloc_pt alloc1 = mem_new_alloc(pool, 1000);
     assert(alloc1);
 
+    printf("\n\nNUMBER OF GAPS %d\n\n",pool->num_gaps);
     print_pool(pool);
+
 
     // - alloc-0
     status = mem_del_alloc(pool, alloc0);
     assert(status == ALLOC_OK);
 
+    printf("\n\nNUMBER OF GAPS %d\n\n",pool->num_gaps);
     print_pool(pool);
+
 
     // - alloc-1
     status = mem_del_alloc(pool, alloc1);
     assert(status == ALLOC_OK);
 
+    printf("\n\nNUMBER OF GAPS %d\n\n",pool->num_gaps);
     print_pool(pool);
-
+    return 0;
 
     /*
      * End of allocation scenario. Clean up.
      */
 
-
+    /*
     status = mem_pool_close(pool);
     assert(status == ALLOC_OK);
     status = mem_free();
 
     printf("status = %d\n", status);
     assert(status == ALLOC_OK);
-
+    */
     return 0;
 }
 
@@ -84,9 +85,10 @@ void print_pool(pool_pt pool) {
     assert(pool);
 
     mem_inspect_pool(pool, &segs, &size);
-
+    printf("%d\n",size);
     assert(segs);
-    assert(size);
+    assert(&size);
+
 
     for (unsigned u = 0; u < size; u ++)
         printf("%10lu - %s\n", (unsigned long) segs[u].size, (segs[u].allocated) ? "alloc" : "gap");
@@ -94,4 +96,5 @@ void print_pool(pool_pt pool) {
     free(segs);
 
     printf("\n");
+
 }
