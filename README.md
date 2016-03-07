@@ -221,7 +221,7 @@ The user is not responsible for deallocating the structure.
    ```c
    typedef struct _pool_segment {
       size_t size;
-      unsigned allocated;
+      unsigned long allocated;
    } pool_segment_t, *pool_segment_pt;
    ```
    
