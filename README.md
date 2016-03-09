@@ -2,6 +2,8 @@
 
 _dynamic memory management with the C language_
 
+* * * 
+
 _note: cmocka has to be built separately and dynamically linked to the project_
 
 _note: the CMakeLists.txt has a hardcoded library name and location assuming an Ubuntu installation_
