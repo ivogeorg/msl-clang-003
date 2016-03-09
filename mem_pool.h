@@ -26,15 +26,15 @@ typedef struct _alloc {
 } alloc_t, *alloc_pt;
 
 typedef struct _pool_segment {
-     size_t size;
-     unsigned allocated; // 1-allocation, 0-gap
+    size_t size;
+    unsigned long allocated; // 1-allocation, 0-gap (note: 8 bytes)
 } pool_segment_t, *pool_segment_pt;
 
 typedef enum _alloc_status {
-     ALLOC_OK,
-     ALLOC_FAIL,
-     ALLOC_CALLED_AGAIN,
-     ALLOC_NOT_FREED
+    ALLOC_OK,
+    ALLOC_FAIL,
+    ALLOC_CALLED_AGAIN,
+    ALLOC_NOT_FREED
 } alloc_status;
 
 /* function declarations */

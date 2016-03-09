@@ -16,23 +16,23 @@
 /* Constants */
 /*           */
 /*************/
-#define MEM_FILL_FACTOR   0.75;
-#define MEM_EXPAND_FACTOR 2;
+//#define MEM_FILL_FACTOR   0.75;
+//#define MEM_EXPAND_FACTOR 2;
 
-static const unsigned   MEM_POOL_STORE_INIT_CAPACITY = 20;
-static const float      MEM_POOL_STORE_FILL_FACTOR = MEM_FILL_FACTOR;
-static const unsigned   MEM_POOL_STORE_EXPAND_FACTOR = MEM_EXPAND_FACTOR;
+static const float      MEM_FILL_FACTOR                 = 0.75;
+static const unsigned   MEM_EXPAND_FACTOR               = 2;
 
-static const unsigned   MEM_NODE_HEAP_INIT_CAPACITY = 40;
-static const float      MEM_NODE_HEAP_FILL_FACTOR = MEM_FILL_FACTOR;
-static const unsigned   MEM_NODE_HEAP_EXPAND_FACTOR = MEM_EXPAND_FACTOR;
+static const unsigned   MEM_POOL_STORE_INIT_CAPACITY    = 20;
+static const float      MEM_POOL_STORE_FILL_FACTOR      = 0.75;
+static const unsigned   MEM_POOL_STORE_EXPAND_FACTOR    = 2;
 
-static const unsigned   MEM_GAP_IX_INIT_CAPACITY = 40;
-static const float      MEM_GAP_IX_FILL_FACTOR = MEM_FILL_FACTOR;
-static const unsigned   MEM_GAP_IX_EXPAND_FACTOR = MEM_EXPAND_FACTOR;
+static const unsigned   MEM_NODE_HEAP_INIT_CAPACITY     = 40;
+static const float      MEM_NODE_HEAP_FILL_FACTOR       = 0.75;
+static const unsigned   MEM_NODE_HEAP_EXPAND_FACTOR     = 2;
 
-
-
+static const unsigned   MEM_GAP_IX_INIT_CAPACITY        = 40;
+static const float      MEM_GAP_IX_FILL_FACTOR          = 0.75;
+static const unsigned   MEM_GAP_IX_EXPAND_FACTOR        = 2;
 /*********************/
 /*                   */
 /* Type declarations */
@@ -51,12 +51,12 @@ typedef struct _gap {
 } gap_t, *gap_pt;
 
 typedef struct _pool_mgr {
-     pool_t pool;
-     node_pt node_heap;
-     unsigned total_nodes;
-     unsigned used_nodes;
-     gap_pt gap_ix;
-     unsigned gap_ix_capacity;
+    pool_t pool;
+    node_pt node_heap;
+    unsigned total_nodes;
+    unsigned used_nodes;
+    gap_pt gap_ix;
+    unsigned gap_ix_capacity;
 } pool_mgr_t, *pool_mgr_pt;
 
 
@@ -152,6 +152,22 @@ alloc_status mem_free(){
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pool_pt mem_pool_open(size_t size, alloc_policy policy) {
+    // make sure there the pool store is allocated
+    // expand the pool store, if necessary
+    // allocate a new mem pool mgr
+    // check success, on error return null
+    // allocate a new memory pool
+    // check success, on error deallocate mgr and return null
+    // allocate a new node heap
+    // check success, on error deallocate mgr/pool and return null
+    // allocate a new gap index
+    // check success, on error deallocate mgr/pool/heap and return null
+    // assign all the pointers and update meta data:
+    //   initialize top node of node heap
+    //   initialize top node of gap index
+    //   initialize pool mgr
+    //   link pool mgr to pool store
+    // return the address of the mgr, cast to (pool_pt)
 
      pool_mgr_pt mem_pool_mgr = NULL;
 

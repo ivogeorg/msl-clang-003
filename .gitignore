@@ -37,4 +37,4 @@
 build
 *.stackdump
 *.ini
-
+*.swp
