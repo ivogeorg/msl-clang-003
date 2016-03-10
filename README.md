@@ -75,6 +75,7 @@ Two guides for implementation of `malloc()`: [here](http://danluu.com/malloc-tut
 
 1. An installation as in [cmocka-mem-pool](https://github.com/ivogeorg/os-playground/edit/master/cmocka-mem-pool.md).
 
+#### Overall goal
 
 The memory pool will work roughly like the dynamic memory management functions `malloc, calloc, realloc, free`. Unlike the `*alloc` functions, 
   * the metadata for allocated blocks will be kept in a separate dynamic memory section;
