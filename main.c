@@ -18,6 +18,7 @@ int main(){
     /*
         TEST: mem_init()
     */
+    printf("\nTEST MODULE 1: mem_init()\n");
     printf("\nTest: Call mem_init() -> should pass\n");
     alloc_status status = mem_init();  //this should return alloc_status == ALLOC_OK
     assert(status == ALLOC_OK); //This assertion checks that the mem_init worked, if it did, status is ALLOC_OK
@@ -25,7 +26,7 @@ int main(){
     printf("\nTest: Call mem_init() a second time without calling mem_free() -> should fail\n");
     status = mem_init();
     assert(status == ALLOC_CALLED_AGAIN); //checks that the 2nd mem_init failed
-    
+    printf("\nTEST MODULE 1: PASSED\n");
     
     /*
         TEST: mem_free()
@@ -33,24 +34,41 @@ int main(){
     //Check and see if mem_free() works
     //If status is ALLOC_NOT_FREED, or ALLOC_FAILED then this failed.  
     //ALLOC_OK if it succeeded
+    printf("\nTEST MODULE 2: mem_free()\n");
     printf("\nTest: Call mem_free() to deallocate the pool_store\n");
     status = mem_free();
     assert(status == ALLOC_OK);
+    printf("\nTEST MODULE 2: PASSED\n");
     
     
     /*
         TEST: mem_pool_open()
     */
+    printf("\nTEST MODULE 3: mem_pool_open()\n");
+    //Test failure conditions
     printf("\nTest: Call mem_pool_open() before mem_init() -> should fail\n");
     pool = mem_pool_open(POOL_SIZE, FIRST_FIT);
     assert(!pool);  //This assertion checks that the mem_pool_open worked
-    
+    //Test proper function
     printf("\nTest: Call mem_pool_open() -> should pass\n");
     status = mem_init();
     assert(status == ALLOC_OK);
     pool = mem_pool_open(POOL_SIZE, FIRST_FIT);
-    assert(pool);  //This assertion checks that the mem_pool_open worked
+    //Assertion checks that the mem_pool_open worked
+    assert(pool);
+    printf("\nTEST MODULE 3: PASSED\n");
     
+    
+    /*
+        TEST: _mem_resize_pool_store()
+    */
+    printf("\nTEST MODULE 4: _mem_resize_pool_store()\n");
+    //Test failure conditions
+    //Test proper function
+    printf("\nTest: call _mem_resize_pool_store() -> should pass\n");
+    status = _mem_resize_pool_store();
+    assert(status == ALLOC_OK);
+    printf("\nTEST MODULE 4: PASSED\n");
     
     //Exit test suite
     return 0; //Exit the program on code 0, ie everything went well.
