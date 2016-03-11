@@ -23,21 +23,15 @@ static const float      MEM_FILL_FACTOR                 = 0.75;
 static const unsigned   MEM_EXPAND_FACTOR               = 2;
 
 static const unsigned   MEM_POOL_STORE_INIT_CAPACITY    = 20;
-//static const float      MEM_POOL_STORE_FILL_FACTOR      = MEM_FILL_FACTOR;
 static const float      MEM_POOL_STORE_FILL_FACTOR      = 0.75;
-//static const unsigned   MEM_POOL_STORE_EXPAND_FACTOR    = MEM_EXPAND_FACTOR;
 static const unsigned   MEM_POOL_STORE_EXPAND_FACTOR    = 2;
 
 static const unsigned   MEM_NODE_HEAP_INIT_CAPACITY     = 40;
-//static const float      MEM_NODE_HEAP_FILL_FACTOR       = MEM_FILL_FACTOR;
 static const float      MEM_NODE_HEAP_FILL_FACTOR       = 0.75;
-//static const unsigned   MEM_NODE_HEAP_EXPAND_FACTOR     = MEM_EXPAND_FACTOR;
 static const unsigned   MEM_NODE_HEAP_EXPAND_FACTOR     = 2;
 
 static const unsigned   MEM_GAP_IX_INIT_CAPACITY        = 40;
-//static const float      MEM_GAP_IX_FILL_FACTOR          = MEM_FILL_FACTOR;
 static const float      MEM_GAP_IX_FILL_FACTOR          = 0.75;
-//static const unsigned   MEM_GAP_IX_EXPAND_FACTOR        = MEM_EXPAND_FACTOR;
 static const unsigned   MEM_GAP_IX_EXPAND_FACTOR        = 2;
 
 
