@@ -68,6 +68,12 @@ int main(){
     printf("\nTest: call _mem_resize_pool_store() -> should pass\n");
     status = _mem_resize_pool_store();
     assert(status == ALLOC_OK);
+    printf("\nTest: call _mem_resize_pool_store() -> should resize pool and pass\n");
+    pool_store_capacity = 20;
+    pool_store_size = 18;
+    status = _mem_resize_pool_store();
+    assert(status == ALLOC_OK);
+    mem_free();
     printf("\nTEST MODULE 4: PASSED\n");
     
     //Exit test suite
