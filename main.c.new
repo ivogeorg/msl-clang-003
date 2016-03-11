@@ -1,0 +1,8 @@
+#include "test_suite.h"
+#include <stddef.h>
+
+/* main */
+int main(int argc, char *argv[]) {
+
+    return run_test_suite();
+}
