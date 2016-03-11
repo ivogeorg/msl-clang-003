@@ -33,7 +33,10 @@ static const unsigned   MEM_NODE_HEAP_EXPAND_FACTOR     = 2;
 static const unsigned   MEM_GAP_IX_INIT_CAPACITY        = 40;
 static const float      MEM_GAP_IX_FILL_FACTOR          = 0.75;
 static const unsigned   MEM_GAP_IX_EXPAND_FACTOR        = 2;
+<<<<<<< HEAD
 
+=======
+>>>>>>> da32ccc96d8a8928e18c52cc87e6da9450a28c08
 
 
 
@@ -544,5 +547,3 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr) {
 
     return ALLOC_FAIL;
 }
-
-

@@ -2,6 +2,12 @@
 
 _dynamic memory management with the C language_
 
+* * * 
+
+_note: cmocka has to be built separately and dynamically linked to the project_
+
+_note: the CMakeLists.txt has a hardcoded library name and location assuming an Ubuntu installation_
+
 * * *
 
 ### Goals
@@ -37,7 +43,7 @@ Your program should run on a **C11** compatible compiler. Use `gcc` on a Linux s
 
 ### Due date
 
-The assignment is due on **Sun, Mar 13, at 23:59 Mountain time**. The last commit to your PA1 repository before the deadline will be graded.
+The assignment is due on **Sun, Mar 20, at 23:59 Mountain time**. The last commit to your PA1 repository before the deadline will be graded.
 
 ### Honor code
 
@@ -64,6 +70,12 @@ The [C11 Standard](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf) is
 Two guides for implementation of `malloc()`: [here](http://danluu.com/malloc-tutorial/) and [here](http://www.inf.udec.cl/~leo/Malloc_tutorial.pdf).
 
 ### Detailed Instructions
+
+#### Prerequisites
+
+1. An installation as in [cmocka-mem-pool](https://github.com/ivogeorg/os-playground/edit/master/cmocka-mem-pool.md).
+
+#### Overall goal
 
 The memory pool will work roughly like the dynamic memory management functions `malloc, calloc, realloc, free`. Unlike the `*alloc` functions, 
   * the metadata for allocated blocks will be kept in a separate dynamic memory section;
@@ -276,3 +288,4 @@ _this section concerns future editions of the project_
 
 1. Redesign/refactor to return the _memory allocation address (mem)_ to the user from `mem_new_alloc` instead of the allocation record address. The allocation record is embedded in the linked list node, so when the node heap is reallocated, the nodes' (and, thus, the allocation records') addresses shift. The internal infrastructure only requires an adjustment of the linked list pointers and the gap index node pointers, but the allocation record addresses the user has are invalidated. So _mem_ should be returned and not _alloc_.
 
+2. Static linking of the _cmocka_ library.
