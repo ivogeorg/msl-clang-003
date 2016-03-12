@@ -204,8 +204,8 @@ alloc_status mem_free() {
             debug2("    Attempting to deallocate pool_store[%d]\n", i);
             sts = mem_pool_close((pool_pt) pool_store[i]);  //close the pool, and capture the status
             assert(sts == ALLOC_OK); //make sure each deallocation happened successfully
-            debug2("PASS: pool_store[%d] has been deallocated\n", i);
         }
+        debug("PASS: pool_store has been successfully deallocated\n");
         // can free the pool store array now
         free(pool_store);  //frees the memory allocated to the pool_store list
     
@@ -313,7 +313,7 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
         free((*new_pool_mgr_pt).pool.mem);  //free the pool.mem
         free(new_pool_mgr_pt);              //free the newly created pool_mgr_t
         //  then this is a failure and return NULL
-        return NULL;
+        return NULL; //FAIL
     }
     debug("PASS: calloc() for node_heap successful\n");
     
@@ -330,7 +330,7 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
         free((*new_pool_mgr_pt).node_heap); //free the node_heap
         free((*new_pool_mgr_pt).pool.mem);  //free the pool.mem
         free(new_pool_mgr_pt);              //free the newly created pool_mgr_t
-        return NULL;
+        return NULL; //FAIL
     }
     debug("PASS: calloc() for gap_ix successful\n");
     
@@ -381,6 +381,7 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
 
 
 alloc_status mem_pool_close(pool_pt pool) {
+    debug("FUNCTION CALL: mem_pool_close() has been called\n");
     // get mgr from pool by casting the pointer to (pool_mgr_pt)
     // check if this pool is allocated
     // check if pool has only one gap
@@ -391,11 +392,12 @@ alloc_status mem_pool_close(pool_pt pool) {
     // find mgr in pool store and set to null
     // note: don't decrement pool_store_size, because it only grows
     // free mgr
-
+    debug("FUNCTION NOT YET IMPLEMENTED - RETURNING ALLOC_FAIL\n");
     return ALLOC_OK;
 }
 
 alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
+    debug("FUNCTION CALL: mem_new_alloc() has been called\n");
     // get mgr from pool by casting the pointer to (pool_mgr_pt)
     // check if any gaps, return null if none
     // expand heap node, if necessary, quit on error
@@ -418,11 +420,12 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
     //   add to gap index
     //   check if successful
     // return allocation record by casting the node to (alloc_pt)
-
+    debug("FUNCTION NOT YET IMPLEMENTED - RETURNING ALLOC_FAIL\n");
     return NULL;
 }
 
 alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
+    debug("FUNCTION CALL: mem_del_alloc() has been called\n");
     // get mgr from pool by casting the pointer to (pool_mgr_pt)
     // get node from alloc by casting the pointer to (node_pt)
     // find the node in the node heap
@@ -470,13 +473,14 @@ alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
     //   change the node to add to the previous node!
     // add the resulting node to the gap index
     // check success
-
+    debug("FUNCTION NOT YET IMPLEMENTED - RETURNING ALLOC_FAIL\n");
     return ALLOC_FAIL;
 }
 
 void mem_inspect_pool(pool_pt pool,
                       pool_segment_pt *segments,
                       unsigned *num_segments) {
+    debug("FUNCTION CALL: mem_inspect_pool() has been called\n");
     // get the mgr from the pool
     // allocate the segments array with size == used_nodes
     // check successful
@@ -487,6 +491,7 @@ void mem_inspect_pool(pool_pt pool,
                     *segments = segs;
                     *num_segments = pool_mgr->used_nodes;
      */
+     debug("FUNCTION NOT YET IMPLEMENTED\n");
 }
 
 
@@ -496,6 +501,8 @@ void mem_inspect_pool(pool_pt pool,
 /* Definitions of static functions */
 /*                                 */
 /***********************************/
+
+/* TESTED IN MY OWN TESTING SUITE - PASSED */
 //This method is called from mem_pool_open()
 static alloc_status _mem_resize_pool_store() {
     debug("FUNCTION CALL: _mem_resize_pool_store() has been called\n");
