@@ -1,6 +1,5 @@
 /*
  * Created by Ivo Georgiev on 2/9/16.
- * Jordan Stein
  */
 
 #include <stdlib.h>
