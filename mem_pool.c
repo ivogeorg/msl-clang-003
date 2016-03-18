@@ -125,14 +125,8 @@ alloc_status mem_free(){
      for (int i = 0; i < pool_store_capacity; i++) {
           if (pool_store[i] != NULL && !pool_manager_allocated) {
                // Found an allocated pool manager
-               printf("mem_free: pool manager still allocated at i=%d\n", i);
                pool_manager_allocated = 1;
           }
-     }
-
-     if (pool_manager_allocated) {
-          printf("mem_free: **** pool_manager_allocated ... what to do?\n");
-          //return ALLOC_FAIL;
      }
 
      // can free the pool store array
@@ -724,7 +718,7 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr) {
      pool_pt pool = (pool_pt) pool_mgr;
      for (int i = pool->num_gaps; i > 0; i--) {
          if (pool_mgr->gap_ix[i].size > 0) {
-             if (pool_mgr->gap_ix[i].size < pool_mgr->gap_ix[i-1].size) {
+               if (pool_mgr->gap_ix[i].size < pool_mgr->gap_ix[i-1].size) {
                  //printf("+++++ _mem_sort_gap_ix swapping at i=%d\n", i);
                  gap_t tmp_gap;
                  tmp_gap.size = pool_mgr->gap_ix[i].size;
@@ -733,39 +727,20 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr) {
                  pool_mgr->gap_ix[i].node = pool_mgr->gap_ix[i-1].node;
                  pool_mgr->gap_ix[i-1].size = tmp_gap.size;
                  pool_mgr->gap_ix[i-1].node = tmp_gap.node;
-
+               for (int i = pool->num_gaps; i > 0; i--) {
+                    if (pool_mgr->gap_ix[i].size == pool_mgr->gap_ix[i-1].size && pool_mgr->gap_ix[i].node > pool_mgr->gap_ix[i-1].node ) {
+                         //printf("+++++ _mem_sort_gap_ix swapping at i=%d\n", i);
+                         gap_t tmp_gap;
+                         tmp_gap.size = pool_mgr->gap_ix[i].size;
+                         tmp_gap.node = pool_mgr->gap_ix[i].node;
+                         pool_mgr->gap_ix[i].size = pool_mgr->gap_ix[i-1].size;
+                         pool_mgr->gap_ix[i].node = pool_mgr->gap_ix[i-1].node;
+                         pool_mgr->gap_ix[i-1].size = tmp_gap.size;
+                         pool_mgr->gap_ix[i-1].node = tmp_gap.node;
+                    } 
+               }
              }
          }
      }
-     for (int i = pool->num_gaps; i > 0; i--) {
-         if (pool_mgr->gap_ix[i].size > 0) {
-             if (pool_mgr->gap_ix[i].size == pool_mgr->gap_ix[i-1].size && pool_mgr->gap_ix[i].node > pool_mgr->gap_ix[i-1].node ) {
-                 //printf("+++++ _mem_sort_gap_ix swapping at i=%d\n", i);
-                 gap_t tmp_gap;
-                 tmp_gap.size = pool_mgr->gap_ix[i].size;
-                 tmp_gap.node = pool_mgr->gap_ix[i].node;
-                 pool_mgr->gap_ix[i].size = pool_mgr->gap_ix[i-1].size;
-                 pool_mgr->gap_ix[i].node = pool_mgr->gap_ix[i-1].node;
-                 pool_mgr->gap_ix[i-1].size = tmp_gap.size;
-                 pool_mgr->gap_ix[i-1].node = tmp_gap.node;
-             }
-         }
-     }
-
      return ALLOC_OK;
-}
-
-static void _print_node_heap(pool_mgr_pt pool_mgr) {
-
-     printf("PRINT NODE HEAP: %d of %d nodes in use ----------\n",
-         pool_mgr->used_nodes, pool_mgr->total_nodes);
-     int node_num = 0;
-     node_pt node ;
-     //for (node = pool_mgr->node_heap; node != NULL; node = node->next) {
-     for (node = pool_mgr->node_heap; node_num < pool_mgr->used_nodes; node = node->next) {
-         printf("%d %u used=%d, allocated=%d, size=%d, *mem=%u\n",
-             node_num, (unsigned int)node, node->used, node->allocated, node->alloc_record.size, (unsigned int)(node->alloc_record.mem));
-         node_num++;
-     }
-     printf("DONE----------------------------------------------\n");
 }
