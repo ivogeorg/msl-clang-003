@@ -227,7 +227,7 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
      //   initialize top node of node heap
      pool_mgr->node_heap->alloc_record.mem = pool_mgr->pool.mem;
      pool_mgr->node_heap->alloc_record.size = pool_mgr->pool.total_size;
-     pool_mgr->node_heap->used = 1;
+     pool_mgr->node_heap->used = 0;
      pool_mgr->node_heap->allocated = 0;
 
      //   initialize top node of gap index
@@ -325,10 +325,14 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
      // if BEST_FIT, then find the first sufficient node in the gap index
      node_pt node_to_allocate = NULL;
      if (pool->policy == FIRST_FIT){
-          for (node_pt node = pool_mgr->node_heap; node != NULL && node_to_allocate == NULL; node = node->next){
+          int node_counter = 0;
+          for (node_pt node = pool_mgr->node_heap; node != NULL && node_to_allocate == NULL && node_counter < pool_mgr->used_nodes; node = node->next){
                if (node->alloc_record.size >= size && node->allocated == 0){
+
                     node_to_allocate = node;
                }
+
+          node_counter++;
           }//end of for
      }
      else{
@@ -381,7 +385,7 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
 
           //   initialize it to a gap node
           remaining_gap_node->allocated = 0;
-          remaining_gap_node->used = 1;
+          remaining_gap_node->used = 0;
           remaining_gap_node->alloc_record.size = remaining_gap;
           remaining_gap_node->alloc_record.mem = node_to_allocate->alloc_record.mem + size;
 
@@ -721,6 +725,21 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr) {
      for (int i = pool->num_gaps; i > 0; i--) {
          if (pool_mgr->gap_ix[i].size > 0) {
              if (pool_mgr->gap_ix[i].size < pool_mgr->gap_ix[i-1].size) {
+                 //printf("+++++ _mem_sort_gap_ix swapping at i=%d\n", i);
+                 gap_t tmp_gap;
+                 tmp_gap.size = pool_mgr->gap_ix[i].size;
+                 tmp_gap.node = pool_mgr->gap_ix[i].node;
+                 pool_mgr->gap_ix[i].size = pool_mgr->gap_ix[i-1].size;
+                 pool_mgr->gap_ix[i].node = pool_mgr->gap_ix[i-1].node;
+                 pool_mgr->gap_ix[i-1].size = tmp_gap.size;
+                 pool_mgr->gap_ix[i-1].node = tmp_gap.node;
+
+             }
+         }
+     }
+     for (int i = pool->num_gaps; i > 0; i--) {
+         if (pool_mgr->gap_ix[i].size > 0) {
+             if (pool_mgr->gap_ix[i].size == pool_mgr->gap_ix[i-1].size && pool_mgr->gap_ix[i].node > pool_mgr->gap_ix[i-1].node ) {
                  //printf("+++++ _mem_sort_gap_ix swapping at i=%d\n", i);
                  gap_t tmp_gap;
                  tmp_gap.size = pool_mgr->gap_ix[i].size;
