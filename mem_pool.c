@@ -1,7 +1,10 @@
 /*
 * ORIGINAL WAS Created by Ivo Georgiev on 2/9/16.
-* TESTED VERSION Created by Tegan Straley on 2/29/2016
+* TESTED VERSION Created by Tegan Straley/Sean Adams/ David King on 2/29/2016
 *         for Operating Systems CSCI 3453, SPRING 2016
+*
+*GROUP information: Tegan Straley, Sean Adams, and David King worked together in a group for this project
+*
 */
 
 #include <stdlib.h>
