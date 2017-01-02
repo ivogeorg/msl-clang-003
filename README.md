@@ -290,4 +290,4 @@ _this section concerns future iterations of the project_
 
 2. Static linking of the _cmocka_ library.
 
-3. Doxygen comments for header files.
+3. Doxygen comments for header files. [Example](http://fnch.users.sourceforge.net/doxygen_c.html).
