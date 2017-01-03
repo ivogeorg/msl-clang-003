@@ -1,6 +1,6 @@
 /*
- * Created by Ivo Georgiev on 2/9/16.
- */
+* Created by Ivo Georgiev on 2/9/16.
+*/
 
 #ifndef DENVER_OS_PA_C_MEM_POOL_H
 #define DENVER_OS_PA_C_MEM_POOL_H
@@ -12,17 +12,17 @@
 typedef enum _alloc_policy { FIRST_FIT, BEST_FIT } alloc_policy;
 
 typedef struct _pool {
-    char *mem;
-    alloc_policy policy;
-    size_t total_size;
-    size_t alloc_size;
-    unsigned num_allocs;
-    unsigned num_gaps;
+     char *mem;
+     alloc_policy policy;
+     size_t total_size;
+     size_t alloc_size;
+     unsigned num_allocs;
+     unsigned num_gaps;
 } pool_t, *pool_pt;
 
 typedef struct _alloc {
-    size_t size;
-    char *mem;
+     size_t size;
+     char *mem;
 } alloc_t, *alloc_pt;
 
 typedef struct _pool_segment {
