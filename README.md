@@ -1,4 +1,4 @@
-## Operating Systems Concepts: Programming Assignment C3
+## C Programming Assignment 3
 
 _dynamic memory management with the C language_
 
