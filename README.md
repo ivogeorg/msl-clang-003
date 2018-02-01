@@ -4,9 +4,7 @@ _dynamic memory management with the C language_
 
 * * * 
 
-_note: cmocka has to be built separately and dynamically linked to the project_
-
-_note: the CMakeLists.txt has a hardcoded library name and location assuming an Ubuntu installation_
+_Note: `cmocka` has to be built installed separately and dynamically linked to the project. You can find directions in [os-playground](https://github.com/ivogeorg/os-playground/blob/master/cmocka-mem-pool.md). The `CMakeLists.txt` has entries for Linux (Ubuntu) and MacOS. On Windows with Cigwin/MinGW, it should be similar but the path has to be adjusted. If someone figures it out, please [create a pull request](https://help.github.com/articles/creating-a-pull-request/) for the addition._
 
 * * *
 
@@ -15,41 +13,44 @@ _note: the CMakeLists.txt has a hardcoded library name and location assuming an 
 1. Practice development in the C programming language.
 2. Learn to manage (allocate/deallocate) dynamic memory (aka memory on the heap/free store).
 3. Get a feel for the memory management overhead in an operating system.
-4. Get a basic understanding of the operation of `malloc` and the heap.
-5. Practice working with a variety of data structures.
-6. Practice programming with pointers.
-7. Prepare for the development of the [Pintos](http://pintos-os.org/) projects.
-8. Develop good coding style.
+4. Get a feel for the design tradeoffs in the design and implementation of an operating system.
+5. Get a basic understanding of the operation of `malloc` and the heap.
+6. Practice working with a variety of data structures.
+7. Practice programming with pointers.
+8. Prepare for the development of the [Pintos](http://pintos-os.org/) projects.
+9. Develop good coding style.
 
 ## Synopsis
 
-PA1 asks you to implement a memory pool manager which allocates dynamic memory blocks from a set pre-allocated region, mimicking the functionality of the C Standard Library function `malloc()`. You are given a header file `mem_pool.h` and a source file `mem_pool.c`. You are not supposed to change the header file and are free to use the infrastructure in the source file to implement the user-facing functions in the header, or come up with your own.
+C PA 3 asks you to implement a library for a memory pool manager which allocates dynamic memory blocks from a set pre-allocated region, mimicking the functionality of the C Standard Library function `malloc()`. You are given a header file (the user API) `mem_pool.h` and a source file `mem_pool.c` with data structures for a suggested implementation. You are not supposed to change the header file and are free to use the infrastructure in the source file to implement the user-facing functions in the header, or come up with your own.
 
-PA1 is an assignment in the test-driven development (TDD) style. The provided `main.c` driver file executes a suite of unit tests against your implementation, and your score is equal to the ratio of the number of successfully passed tests and the total number of tests. The tests use the [cmocka](https://cmocka.org/) unit test framework.
+C PA 3 is an assignment in the test-driven development (TDD) style. The provided `main.c` driver file executes a suite of unit tests against your implementation, and your score depends on how many tests your code passes. The tests use the [cmocka](https://cmocka.org/) unit-test framework.
 
 ## Submission
 
-You need to submit on the course's chosen learning management system the _url_ of your remote Github repository by the assignment deadline. 
+You need to fork this repository and `git clone` it to your development environment. When you are done and your code works, `git commit` all your changes and `git push` to your forked (aka **remote**) repository. Work in the **master** branch.
 
-Once you fork the repository (this is your **remote** repository on Github, aka **origin**), you will clone it to your development machine (this is your local repository), and start work on it. Commit your changes to your local repository often and push them up to the remote repository occasionally. Make sure you push at least once before the due date. At the due date, your remote repository will be cloned and tested automatically by the grading script. _**Note:** Your code should be in the **master** branch of your remote repository._
+### Github
+Submissions are **one** per team. If you haven't done so, create a git account for your team. The name should look like **ucd-[course]-[team-color]-s18**. For example, **ucd-os-orange-s18** or **ucd-unix-black-s18**. (If you want, you can create an [organization](https://github.com/blog/674-introducing-organizations) but that might be overkill.) Make all team submissions from this account. 
+
+### Canvas
+Both team members have to make an assignment submission on [Canvas](https://canvas.instructure.com/courses/1270192) before the deadline. You only need to enter the _clone URL_ of your project repository (e.g. https://github.com/ivogeorg/msl-clang-001.git).
 
 ## Grading
 
-An autograding script will run the test suite against your files. Your grade will be based on the number of tests passed. (E.g. if your code passes 3 out of 6 test cases, your score will be 50% and the grade will be the corresponding letter grade in the course's grading scale). **Note:** The testing and grading will be done with fresh original copies of all the provided files. In the course of development, you can modify them, if you need to, but your changes will not be used. Only your <tt>mem_pool.c</tt> file will be used.
+You get 10 points for each test passed, for a maximum total of **250** for the full regular submission. There will be bonus tests that will be scored differently. These points are cumulative for your course grade.
 
 ## Compiler
 
-Your program should run on a **C11** compatible compiler. Use `gcc` on a Linux server for your school. The test will be run there for grading.
+Your program should run on a **C11** compatible compiler.
 
 ## Due date
 
-The assignment is due on **Sun, Feb 11, 2018, by 23:59 Mountain time**. The last commit to your PA1 repository before the deadline will be graded.
+The assignment is due on **Sun, Feb 11, 2018, by 23:59 Mountain time**. The last commit to your C PA 3 repository before the deadline will be graded.
 
 ## Honor code
 
-Free Github repositories are public so you can look at each other's code. Please, don't do that. You can discuss any programming topics and the assignments in general but sharing of solutions diminishes the individual learning experience of many people. Assignments might be randomly checked for plagiarism and a plagiarism claim may be raised against you.
-
-Note that PA1 one is an _individual_ assignment, not a _team_ assignment like the upcoming Pintos assignments.
+Free Github repositories are public so you can look at each other's code. Please, don't do that. You can discuss any programming topics and the assignments in general but sharing of solutions diminishes the individual learning experience of others. Assignments might be checked for plagiarism without warning and a plagiarism claim may be raised against you.
 
 ## Use of libraries
 
@@ -61,11 +62,18 @@ Familiarize yourself with and start the following [coding style guide](http://co
 
 ## References
 
-A minimal [C Reference](https://cs50.harvard.edu/resources/cppreference.com/), which should be sufficient for your needs.
+The [C Reference](http://en.cppreference.com/w/c), which you should get confortable consulting.
 
-The [C98 Library Reference](https://www-s.acm.illinois.edu/webmonkeys/book/c_guide/) is more complete.
+The [ISO C Standards](http://www.iso-9899.info/wiki/The_Standard) defines the language. A freely available draft [C11 Standard](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf), if you want to dig deep.
 
-The [C11 Standard](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf) is just provided for completeness, and you shouldn't need to read it, except peruse it out of curiosity.
+This [C98 Library Reference](https://www-s.acm.illinois.edu/webmonkeys/book/c_guide/) seems to be the standard reference. You should not expect many changes, though it's always good to work off a latest copy of your library reference, which should be available through the vendor/implementor.
+
+The following compendia of frequently asked questions about C are excellent resources for the dusty corners, non-sequiturs, and best practices in C programming:
+
+1. [C Programming FAQs](http://c-faq.com/index.html)
+2. [FAQs at CProgramming.com](https://faq.cprogramming.com/cgi-bin/smartfaq.cgi)
+
+A long list of [C/C++ software resources](https://github.com/fffaraz/awesome-cpp).
 
 Two guides for implementation of `malloc()`: [here](http://danluu.com/malloc-tutorial/) and [here](http://www.inf.udec.cl/~leo/Malloc_tutorial.pdf).
 
@@ -79,8 +87,7 @@ Two guides for implementation of `malloc()`: [here](http://danluu.com/malloc-tut
 
 The memory pool will work roughly like the dynamic memory management functions `malloc, calloc, realloc, free`. Unlike the `*alloc` functions, 
   * the metadata for allocated blocks will be kept in a separate dynamic memory section;
-  * there will be multiple independent memory pool to allocate from;
-  * the return value is a pointer to a `struct` which contains the memory pointer, rather than the pointer itself;
+  * there will be multiple independent memory pools to allocate from;
   * there is less hiding of (some of) the allocation metadata, to help with debugging and testing.
 
 ### API Functions
@@ -101,20 +108,17 @@ The memory pool will work roughly like the dynamic memory management functions `
 
    This function deallocates a single memory pool.
 
-5. `alloc_pt mem_new_alloc(pool_pt pool, size_t size);`
+5. `void * mem_new_alloc(pool_pt pool, size_t size);`
 
-   This function performs a single allocation of `size` in bytes from the given memory pool. Allocations from different memory pools are independent. 
+   This function performs a single allocation of `size` in bytes from the given memory pool. Allocations from different memory pools are independent. _**Note:** There is no mechanism for bounds-checking on the use of the allocations._
 
-6. `alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc);`
+6. `alloc_status mem_del_alloc(pool_pt pool, void * alloc);`
 
    This function deallocates the given allocation from the given memory pool.
 
 7. `void mem_inspect_pool(pool_pt pool, pool_segment_pt *segments, unsigned *num_segments);`
 
-   This function returns a new dynamically allocated array of the pool `segments` (allocations or gaps) in the order in which they are in the pool. The number of segments is returned in `num_segments`. The caller is responsible for freeing the array.
-   
-   **Note:** Fixed bug in signature: `segments` was a single pointer, and has to be double. Fixed and updated in code.
-
+   This function returns a new dynamically allocated array of the pool `segments` (allocations or gaps) in the order in which they are in the pool. The number of segments is returned in `num_segments`. The caller is responsible for freeing the array.   
 
 ### Data Structures
 
@@ -138,26 +142,21 @@ The memory pool will work roughly like the dynamic memory management functions `
    1. Passed to all functions that open, allocate on, dealocate from, and close a pool.
    2. The metadata contained in the structure is used by the library, so should not be overwritten by the user. It is provided for testing and debugging.
 
-2. Allocation record _(user facing)_
+2. Allocation record _(library static)_
 
-   This is the data structure a pointer to which is returned to the user for each new allocation from a given pool. Again, the pointer to the allocated memory is in this structure along with the allocated size. The user passes the pointer to the structure and the pointer to the structure of the containing memory pool to the deallocation function `mem_del_alloc`.
-The user is not responsible for deallocating the structure.
+   The `mem` pointer is returned to the user. The user passes this pointer and the pointer to the structure of the containing memory pool to the deallocation function `mem_del_alloc`.
 
    **Structure:**
    ```c
    typedef struct _alloc {
-      size_t size;
       char *mem;
+      size_t size;
    } alloc_t, *alloc_pt;
    ```
    
-   **Behavior & management:**
-   1. Passed to the functions that allocate on and dealocate from a given pool.
-   2. **Note:** A pointer to an allocation structure (aka allocation record) is the same as the pointer to the allocated memory!
-
 3. Pool manager _(library static)_
 
-   This is a datastructure that the `mem_pool` library uses to store the private metadata for a single memory pool. It is hidden to the user.
+   This is a data structure that the `mem_pool` library uses to store the private metadata for a single memory pool. It is hidden from the user.
 
    **Structure:**
    ```c
@@ -177,9 +176,9 @@ The user is not responsible for deallocating the structure.
    2. The functions which make allocations in a given pool have to pass the pool as their first argument.
    3. The `gap_ix_capacity` is the capacity of the gap index and used to test if the index has to be expanded. If the index is expanded, `gap_ix_capacity` is updated as well.
    
-4. (Linked-list) node heap _(library static)_
+4. (Array-packed linked-list) node heap _(library static)_
 
-   This is _packed_ linked list which holds nodes for all the segments (allocations or gaps) in a pool, in ascending order by memory address. That is, the first node is always going to point to the segment that starts at the beginning of the pool. This data structure is hidden from the user, except that the `num_allocs` and `num_gaps` variables in the user-facing `pool_t` structure are in sync with the node heap.
+   This is a _packed_ linked list which holds nodes for all the segments (allocations or gaps) in a pool, in ascending order by memory address. That is, the first node is always going to point to the segment that starts at the beginning of the pool. This data structure is hidden from the user, except that the `num_allocs` and `num_gaps` variables in the user-facing `pool_t` structure are in sync with the node heap.
    
    **Structure:**
    ```c
@@ -191,12 +190,11 @@ The user is not responsible for deallocating the structure.
    } node_t, *node_pt;
    ```
    **Behavior & management:**
-   1. This is a linked list allocated as an array of `node__t` structures. If a node has `used` set to 1, it is part of the list; otherwise, it is an unused node which can be used for a new allocation.
+   1. This is a linked list allocated as an array of `node__t` structures. If a node has `used` set to 1, it is part of the list; otherwise, it is an unused node which can be used for a new allocation or gap.
    2. The first node is always present and should always point to the top segment of the pool, regardless of the type of segment (allocation or gap).
    2. An active list node (`used == 1`) is either an allocation (`allocated == 1`) or a gap (`allocated == 0`).
    3. The list is doubly-linked to simplify the deallocation of an allocated sector between two gap sectors.
-   4. **Note:** Notice that the user-facing allocation record (of type `alloc_t`) is on top of the internal `node_t`, so they have the same address and a pointer to the one points to the other. Of course, the pointer has to be cast to the proper type. For example, the the `alloc_pt` passed by the user as an argument to the `mem_new_alloc` and `mem_del_alloc` has to be cast to `node_pt` before operating with the corresponding linked-list node.
-   5. The linked list is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
+   4. The linked list is initialized with a certain capacity. If necessary, it should be resized. See the corresponding `static` function and constants in the source file.
    
 5. Gap index _(library static)_
 
@@ -210,12 +208,13 @@ The user is not responsible for deallocating the structure.
    } gap_t, *gap_pt;
    ```
    **Behavior & management:**
-   1. The gap entries hold the `size` of the gaps and point to the corresponding nodes in the node heap linke list.
-   2. The array is initialized with a certain capacity. If necessary, it should be resized with `realloc()`. See the corresponding `static` function and constants in the source file.
+   1. The gap entries hold the `size` of the gaps and point to the corresponding nodes in the node heap linked list.
+   2. **(bonus)** The array is initialized with a certain capacity. If necessary, it should be resized. See the corresponding `static` function and constants.
    3. Use the `num_gaps` variable in the user-facing `pool_t` structure as the size of the array and keep it updated.
-   4. When deleting entries from the array, pull up the entried that follow and update the size. See the corresponding `static` function.
-   5. When adding entries to the array, add at the bottom. See the corresponding `static` function.
+   4. When deleting entries from the array, pull up the entries that follow and update the size. See the corresponding `static` function.
+   5. When adding entries to the array, add at the bottom. If necessary, bubble up. See the corresponding `static` function.
    6. There is a separate `static` function for sorting the array.
+   7. **(bonus)** There is a separate `static` function for invalidating the array.
 
 6. Pool (manager) store _(library static)_
 
@@ -245,17 +244,17 @@ The user is not responsible for deallocating the structure.
 
 The following functions are internal to the library and not exposed to the user. Their names are self-explanatory.
 
-1. `static alloc_status _mem_resize_pool_store();`
+1. **(bonus)** `static alloc_status _mem_resize_pool_store();`
 
    If the pool store's size is within the fill factor of its capacity, expand it by the expand factor using `realloc()`.
 
-2. `static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr);`
+2. **(bonus)** `static alloc_status _mem_resize_node_heap(pool_mgr_pt pool_mgr);`
 
-   If the node heap's size is within the fill factor of its capacity, expand it by the expand factor using `realloc()`.
+   If the node heap's size is within the fill factor of its capacity, expand it by copying over to a larger block of memory. Use `malloc()` and `memcpy()`, packing the nodes in the array _in order_. You will need to rebuild the gap index, as well.
 
-3. `static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr);`
+3. **(bonus)** `static alloc_status _mem_resize_gap_ix(pool_mgr_pt pool_mgr);`
 
-   If the gap index's size is within the fill factor of its capacity, expand it by the expand factor using `realloc()`.
+   If the gap index's size is within the fill factor of its capacity, expand it.
 
 4. `static alloc_status _mem_add_to_gap_ix(pool_mgr_pt pool_mgr, size_t size, node_pt node);`
 
@@ -269,6 +268,10 @@ The following functions are internal to the library and not exposed to the user.
 
    Sort the gap index in ascending order by size.
    **Note:** The index always has a length equal to the number of gaps currently in the corresponding pool.
+
+7. `static alloc_status _mem_invalidate_gap_ix(pool_mgr_pt pool_mgr);`
+
+   Useful during node heap expansion.
 
 ### Static Variables
 
@@ -288,7 +291,7 @@ static unsigned pool_store_capacity = 0;
 _this section concerns future iterations of the project_
 
 1. Add contents for easy navigation.
-2. Refactor to return `mem` not `alloc` to allow pool reallocation and stress testing of multiple large pools and pool growth.
+2. ~Refactor to return `mem` not `alloc` to allow pool reallocation and stress testing of multiple large pools and pool growth.~
 3. Generate drawings of the metadata and allocation scenarios, and embed in README.
 4. Try cmocka 1.1.1 memory leak detection.
 5. Doxygen for headers, which are part of assignment. [Documentation](http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html). [Example](http://fnch.users.sourceforge.net/doxygen_c.html).
