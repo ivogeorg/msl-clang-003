@@ -2,10 +2,8 @@
  * Created by Ivo Georgiev on 2/9/16.
  */
 
-#ifndef DENVER_OS_PA_C_MEM_POOL_H
-#define DENVER_OS_PA_C_MEM_POOL_H
-
-#include <stddef.h>
+#ifndef MEM_POOL_H
+#define MEM_POOL_H
 
 /* type declarations */
 
@@ -19,11 +17,6 @@ typedef struct _pool {
     unsigned num_allocs;
     unsigned num_gaps;
 } pool_t, *pool_pt;
-
-typedef struct _alloc {
-    size_t size;
-    char *mem;
-} alloc_t, *alloc_pt;
 
 typedef struct _pool_segment {
     size_t size;
@@ -51,13 +44,12 @@ mem_pool_open(size_t size, alloc_policy policy);
 alloc_status
 mem_pool_close(pool_pt pool);
 
-alloc_pt
+void *
 mem_new_alloc(pool_pt pool, size_t size);
 
 alloc_status
-mem_del_alloc(pool_pt pool, alloc_pt alloc);
+mem_del_alloc(pool_pt pool, void *alloc);
 
 void
 mem_inspect_pool(pool_pt pool, pool_segment_pt *segments, unsigned *num_segments);
-
-#endif //DENVER_OS_PA_C_MEM_POOL_H
+#endif //C_MEM_POOL_H

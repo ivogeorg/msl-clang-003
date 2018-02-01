@@ -35,6 +35,11 @@ static const unsigned   MEM_GAP_IX_EXPAND_FACTOR        = 2;
 /* Type declarations */
 /*                   */
 /*********************/
+typedef struct _alloc {
+    char *mem;
+    size_t size;
+} alloc_t, *alloc_pt;
+
 typedef struct _node {
     alloc_t alloc_record;
     unsigned used;
@@ -86,6 +91,7 @@ static alloc_status
                                 size_t size,
                                 node_pt node);
 static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr);
+static alloc_status _mem_invalidate_gap_ix(pool_mgr_pt pool_mgr);
 
 
 
@@ -309,4 +315,7 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr) {
     return ALLOC_FAIL;
 }
 
+static alloc_status _mem_invalidate_gap_ix(pool_mgr_pt pool_mgr) {
+    return ALLOC_FAIL;
+}
 
