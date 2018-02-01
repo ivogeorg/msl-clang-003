@@ -153,7 +153,7 @@ alloc_status mem_pool_close(pool_pt pool) {
     return ALLOC_FAIL;
 }
 
-alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
+void * mem_new_alloc(pool_pt pool, size_t size) {
     // get mgr from pool by casting the pointer to (pool_mgr_pt)
     // check if any gaps, return null if none
     // expand heap node, if necessary, quit on error
@@ -180,7 +180,7 @@ alloc_pt mem_new_alloc(pool_pt pool, size_t size) {
     return NULL;
 }
 
-alloc_status mem_del_alloc(pool_pt pool, alloc_pt alloc) {
+alloc_status mem_del_alloc(pool_pt pool, void * alloc) {
     // get mgr from pool by casting the pointer to (pool_mgr_pt)
     // get node from alloc by casting the pointer to (node_pt)
     // find the node in the node heap
