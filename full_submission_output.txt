@@ -1,0 +1,771 @@
+/Users/ivogeorg/git-repos/msl-clang-003-impl/cmake-build-debug/msl-clang-003
+[==========] Running 25 test(s).
+[ RUN      ] test_pool_store_smoketest
+[      --> ] Initializing pool store
+[      --> ] Closing pool store
+[      --> ] Initializing pool store
+[      --> ] Closing pool store
+[      --> ] Initializing pool store
+[      --> ] Closing pool store
+[      --> ] Initializing pool store
+[      --> ] Closing pool store
+[      --> ] Initializing pool store
+[      --> ] Closing pool store
+[      --> ] Initializing pool store
+[      --> ] Closing pool store
+[       OK ] test_pool_store_smoketest
+[ RUN      ] test_pool_smoketest
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+[      --> ] Closing pool
+[      --> ] Allocating pool of 2000000 bytes with policy FIRST_FIT
+[      --> ] Closing pool
+[      --> ] Allocating pool of 6000000 bytes with policy BEST_FIT
+[      --> ] Closing pool
+[      --> ] Allocating pool of 24000000 bytes with policy FIRST_FIT
+[      --> ] Closing pool
+[      --> ] Allocating pool of 120000000 bytes with policy BEST_FIT
+[      --> ] Closing pool
+[      --> ] Allocating pool of 720000000 bytes with policy FIRST_FIT
+[      --> ] Closing pool
+[       OK ] test_pool_smoketest
+[ RUN      ] test_pool_nonempty
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+[      --> ] Allocating 100 bytes
+[      --> ] Trying to close pool without deallocating...
+[      --> ] Failed, as expected
+[      --> ] Deallocating 100 bytes
+[      --> ] Closing pool
+[       OK ] test_pool_nonempty
+[ RUN      ] test_pool_ff_metadata
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+total_size = 1000000(1000000),
+alloc_size = 0(0),
+num_allocs = 0(0),
+  num_gaps = 1(1)
+
+
+       100 - alloc
+    999900 - gap
+total_size = 1000000(1000000),
+alloc_size = 100(100),
+num_allocs = 1(1),
+  num_gaps = 1(1)
+
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+total_size = 1000000(1000000),
+alloc_size = 1100(1100),
+num_allocs = 2(2),
+  num_gaps = 1(1)
+
+
+       100 - alloc
+      1000 - alloc
+     10000 - alloc
+    988900 - gap
+total_size = 1000000(1000000),
+alloc_size = 11100(11100),
+num_allocs = 3(3),
+  num_gaps = 1(1)
+
+
+       100 - alloc
+      1000 - gap
+     10000 - alloc
+    988900 - gap
+total_size = 1000000(1000000),
+alloc_size = 10100(10100),
+num_allocs = 2(2),
+  num_gaps = 2(2)
+
+
+      1100 - gap
+     10000 - alloc
+    988900 - gap
+total_size = 1000000(1000000),
+alloc_size = 10000(10000),
+num_allocs = 1(1),
+  num_gaps = 2(2)
+
+
+      1100 - alloc
+     10000 - alloc
+    988900 - gap
+total_size = 1000000(1000000),
+alloc_size = 11100(11100),
+num_allocs = 2(2),
+  num_gaps = 1(1)
+
+
+      1100 - alloc
+    998900 - gap
+total_size = 1000000(1000000),
+alloc_size = 1100(1100),
+num_allocs = 1(1),
+  num_gaps = 1(1)
+
+
+   1000000 - gap
+total_size = 1000000(1000000),
+alloc_size = 0(0),
+num_allocs = 0(0),
+  num_gaps = 1(1)
+
+
+[      --> ] Closing pool
+[       OK ] test_pool_ff_metadata
+[ RUN      ] test_pool_bf_metadata
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+total_size = 1000000(1000000),
+alloc_size = 0(0),
+num_allocs = 0(0),
+  num_gaps = 1(1)
+
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+    999000 - gap
+total_size = 1000000(1000000),
+alloc_size = 400(400),
+num_allocs = 4(4),
+  num_gaps = 4(4)
+
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+        50 - alloc
+        50 - gap
+       100 - alloc
+    999000 - gap
+total_size = 1000000(1000000),
+alloc_size = 450(450),
+num_allocs = 5(5),
+  num_gaps = 4(4)
+
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+        50 - alloc
+        50 - alloc
+       100 - alloc
+    999000 - gap
+total_size = 1000000(1000000),
+alloc_size = 500(500),
+num_allocs = 6(6),
+  num_gaps = 3(3)
+
+
+   1000000 - gap
+total_size = 1000000(1000000),
+alloc_size = 0(0),
+num_allocs = 0(0),
+  num_gaps = 1(1)
+
+
+[      --> ] Closing pool
+[       OK ] test_pool_bf_metadata
+[ RUN      ] test_pool_scenario00
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario00
+[ RUN      ] test_pool_scenario01
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario01
+[ RUN      ] test_pool_scenario02
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - alloc
+    999900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario02
+[ RUN      ] test_pool_scenario03
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - gap
+      1000 - alloc
+    998900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario03
+[ RUN      ] test_pool_scenario04
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - alloc
+      1000 - alloc
+     10000 - alloc
+    988900 - gap
+
+       100 - alloc
+      1000 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario04
+[ RUN      ] test_pool_scenario05
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - alloc
+      1000 - alloc
+     10000 - alloc
+    988900 - gap
+
+       100 - alloc
+      1000 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+      2000 - alloc
+    986900 - gap
+
+     11100 - gap
+      2000 - alloc
+    986900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario05
+[ RUN      ] test_pool_scenario06
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - alloc
+      1000 - alloc
+     10000 - alloc
+    988900 - gap
+
+       100 - alloc
+      1000 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988900 - gap
+
+       500 - alloc
+       600 - gap
+     10000 - alloc
+    988900 - gap
+
+       500 - alloc
+    999500 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario06
+[ RUN      ] test_pool_scenario07
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - alloc
+      1000 - alloc
+     10000 - alloc
+    988900 - gap
+
+       100 - alloc
+      1000 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - alloc
+     10000 - alloc
+    988900 - gap
+
+      1100 - alloc
+    998900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario07
+[ RUN      ] test_pool_scenario08
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - alloc
+      1000 - alloc
+     10000 - alloc
+    988900 - gap
+
+       100 - alloc
+      1000 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario08
+[ RUN      ] test_pool_scenario09
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - alloc
+      1000 - alloc
+     10000 - alloc
+    988900 - gap
+
+       100 - alloc
+      1000 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988000 - alloc
+       900 - gap
+
+     11100 - gap
+    988000 - alloc
+       900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario09
+[ RUN      ] test_pool_scenario10
+[      --> ] Allocating pool of 1000000 bytes with policy FIRST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+       100 - alloc
+      1000 - alloc
+    998900 - gap
+
+       100 - alloc
+      1000 - alloc
+     10000 - alloc
+    988900 - gap
+
+       100 - alloc
+      1000 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988900 - gap
+
+      1100 - gap
+     10000 - alloc
+    988900 - alloc
+
+     11100 - gap
+    988900 - alloc
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario10
+[ RUN      ] test_pool_scenario11
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+
+       100 - alloc
+    999900 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario11
+[ RUN      ] test_pool_scenario12
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+
+       100 - alloc
+       200 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       300 - gap
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+       200 - gap
+       100 - alloc
+       100 - alloc
+       100 - alloc
+       300 - gap
+       100 - alloc
+    999000 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario12
+[ RUN      ] test_pool_scenario13
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - alloc
+       100 - gap
+       100 - alloc
+       300 - gap
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+       100 - alloc
+       100 - alloc
+       100 - alloc
+       100 - gap
+       100 - alloc
+       300 - gap
+       100 - alloc
+    999000 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario13
+[ RUN      ] test_pool_scenario14
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - alloc
+       100 - gap
+       100 - alloc
+       300 - gap
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+       100 - alloc
+       100 - alloc
+       100 - alloc
+       100 - gap
+       100 - alloc
+       300 - gap
+       100 - alloc
+    999000 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario14
+[ RUN      ] test_pool_scenario15
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+
+       100 - alloc
+       200 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       300 - gap
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+       200 - gap
+       100 - alloc
+        50 - alloc
+        50 - gap
+       100 - alloc
+       300 - gap
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+       200 - gap
+       100 - alloc
+        50 - alloc
+        50 - alloc
+       100 - alloc
+       300 - gap
+       100 - alloc
+    999000 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario15
+[ RUN      ] test_pool_scenario16
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+        50 - alloc
+        50 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+        50 - alloc
+        50 - alloc
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+       100 - alloc
+    999000 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario16
+[ RUN      ] test_pool_scenario17
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+        50 - alloc
+        50 - gap
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+        50 - alloc
+        50 - alloc
+       100 - alloc
+    999000 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario17
+[ RUN      ] test_pool_scenario18
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+    999000 - alloc
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+    999000 - alloc
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario18
+[ RUN      ] test_pool_scenario19
+[      --> ] Allocating pool of 1000000 bytes with policy BEST_FIT
+   1000000 - gap
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       200 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+    999000 - gap
+
+       100 - alloc
+       300 - gap
+       100 - alloc
+       150 - alloc
+        50 - gap
+       100 - alloc
+       100 - gap
+       100 - alloc
+    999000 - gap
+
+   1000000 - gap
+
+[      --> ] Closing pool
+[       OK ] test_pool_scenario19
+[==========] 25 test(s) run.
+[  PASSED  ] 25 test(s).
+
+Process finished with exit code 0
