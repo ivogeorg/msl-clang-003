@@ -1,3 +1,30 @@
+Table of Contents
+=================
+
+* [C Programming Assignment 3](#c-programming-assignment-3)
+  * [Goals](#goals)
+  * [Synopsis](#synopsis)
+  * [Submission](#submission)
+    * [Github](#github)
+    * [Canvas](#canvas)
+  * [Grading](#grading)
+    * [Bonus](#bonus)
+    * [Note on points](#note-on-points)
+  * [Compiler](#compiler)
+  * [Due date](#due-date)
+  * [Honor code](#honor-code)
+  * [Use of libraries](#use-of-libraries)
+  * [Coding style](#coding-style)
+  * [References](#references)
+  * [Detailed Instructions](#detailed-instructions)
+    * [Prerequisites](#prerequisites)
+    * [Overall goal](#overall-goal)
+    * [API Functions](#api-functions)
+    * [Data Structures](#data-structures)
+    * [Static Functions](#static-functions)
+    * [Static Variables](#static-variables)
+  * [TODO](#todo)
+
 # C Programming Assignment 3
 
 _dynamic memory management with the C language_
