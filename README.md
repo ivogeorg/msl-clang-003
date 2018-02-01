@@ -37,8 +37,19 @@ Submissions are **one** per team. If you haven't done so, create a git account f
 Both team members have to make an assignment submission on [Canvas](https://canvas.instructure.com/courses/1270192) before the deadline. You only need to enter the _clone URL_ of your project repository (e.g. https://github.com/ivogeorg/msl-clang-001.git).
 
 ## Grading
+Max points: **250**
+You get 10 points for each test passed, for a maximum total of 250 for the _full regular submission__. 
 
-You get 10 points for each test passed, for a maximum total of **250** for the full regular submission. There will be bonus tests that will be scored differently. These points are cumulative for your course grade.
+### Bonus
+Bonus tasks may be scored differently from regular submission.
+1. Implement data structure growth. Max points: **100**
+2. Pass stress test. Max points: **50**
+3. Beat time of reference implementation. Max points: **50**
+4. Design a plausible way to perform _bounds checking_ on allocation usage and prevent _overwriting_. Max points: **50**
+5. Implement the library with (4). Max points: **250**
+
+### Note on points
+Points for regular and bonus tasks are all cumulative for your course grade.
 
 ## Compiler
 
@@ -290,11 +301,12 @@ static unsigned pool_store_capacity = 0;
 
 _this section concerns future iterations of the project_
 
-1. Add contents for easy navigation.
+1. ~Add contents for easy navigation.~
 2. ~Refactor to return `mem` not `alloc` to allow pool reallocation and stress testing of multiple large pools and pool growth.~
-3. Generate drawings of the metadata and allocation scenarios, and embed in README.
-4. Try cmocka 1.1.1 memory leak detection.
-5. Doxygen for headers, which are part of assignment. [Documentation](http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html). [Example](http://fnch.users.sourceforge.net/doxygen_c.html).
-6. Currently, the test suite is _not_ testing `static` function implementation in `mem_pool.c`, which results in sloppy code and shortcuts. _What can be done?_
-7. Review `TODO`-s in the code.
-8. Static linking of the _cmocka_ library. [Latest release is cmocka 1.1.1](https://cmocka.org/). _CMakeLists.txt should work on all platforms after platform-specific library installation._
+3. Reference implementation of data on-demand structure expansion and **bonus** tests.
+4. Generate drawings of the metadata and allocation scenarios, and embed in README.
+5. Try cmocka 1.1.1 memory leak detection.
+6. Doxygen for headers, which are part of assignment. [Documentation](http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html). [Example](http://fnch.users.sourceforge.net/doxygen_c.html).
+7. Currently, the test suite is _not_ testing `static` function implementation in `mem_pool.c`, which results in sloppy code and shortcuts. _What can be done?_
+8. Review `TODO`-s in the code.
+9. Static linking of the _cmocka_ library. [Latest release is cmocka 1.1.1](https://cmocka.org/). _CMakeLists.txt should work on all platforms after platform-specific library installation._
