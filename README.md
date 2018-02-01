@@ -328,12 +328,11 @@ static unsigned pool_store_capacity = 0;
 
 _this section concerns future iterations of the project_
 
-1. ~Add contents for easy navigation.~
-2. ~Refactor to return `mem` not `alloc` to allow pool reallocation and stress testing of multiple large pools and pool growth.~
-3. Reference implementation of data on-demand structure expansion and **bonus** tests.
-4. Generate drawings of the metadata and allocation scenarios, and embed in README.
-5. Try cmocka 1.1.1 memory leak detection.
+1. ~Contents for easy navigation.~
+2. ~Refactoring to return `mem` not `alloc` to allow pool reallocation and stress testing of multiple large pools and pool growth.~
+3. Reference implementation of on-demand data structure expansion and **bonus** tests.
+4. Drawings of the metadata and allocation scenarios, and embed in README.
+5. cmocka 1.1.1 memory leak detection.
 6. Doxygen for headers, which are part of assignment. [Documentation](http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html). [Example](http://fnch.users.sourceforge.net/doxygen_c.html).
-7. Currently, the test suite is _not_ testing `static` function implementation in `mem_pool.c`, which results in sloppy code and shortcuts. _What can be done?_
-8. Review `TODO`-s in the code.
-9. Static linking of the _cmocka_ library. [Latest release is cmocka 1.1.1](https://cmocka.org/). _CMakeLists.txt should work on all platforms after platform-specific library installation._
+7. Review `TODO`-s in the code.
+8. Static linking of the _cmocka_ library. [Latest release is cmocka 1.1.1](https://cmocka.org/). _CMakeLists.txt should work on all platforms after platform-specific library installation._
