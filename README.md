@@ -65,18 +65,18 @@ Both team members have to make an assignment submission on [Canvas](https://canv
 
 ## Grading
 Max points: **250**
-You get 10 points for each test passed, for a maximum total of 250 for the _full regular submission__. 
+You get 10 points for each test passed, for a maximum total of 250 for the _full regular submission_. 
 
 ### Bonus
 Bonus tasks may be scored differently from regular submission.
-1. Implement data structure growth. Max points: **100**
-2. Pass stress test. Max points: **50**
-3. Beat time of reference implementation. Max points: **50**
-4. Design a plausible way to perform _bounds checking_ on allocation usage and prevent _overwriting_. Max points: **50**
-5. Implement the library with (4). Max points: **250**
+1. Max points: **100**. Implement data structure growth.
+2. Max points:  **50**. Pass stress test.
+3. Max points:  **50**. Beat the runtime of the reference implementation. _Test will be performed on demand on a third-party machine. Might require additional setup to ensure fairness._
+4. Max points:  **50**. Design a plausible way to perform _bounds checking_ on allocation usage and prevent _overwriting_.
+5. Max points: **250**. Implement the library with (4). _Might require additional tests._
 
 ### Note on points
-Points for regular and bonus tasks are all cumulative for your course grade.
+Points for regular and bonus tasks are all cumulative for your course grade. This means that if a certain number of total points is equivalent to a letter grade of A, it is entirely possible for you to have more points. This allows _a form of makeup_ and smooths out the effect of random life events.
 
 ## Compiler
 
