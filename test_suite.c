@@ -2314,13 +2314,10 @@ static void test_pool_scenario19(void **state) {
 }
 
 /*******************************************/
-/***          5. STRESS TEST             ***/
-/***                                     ***/
-/***         [non-functional]            ***/
-/***         [see NOTE below]            ***/
+/***        5. STRESS TESTING            ***/
 /*******************************************/
 
-void test_pool_stresstest(void **state) {
+void test_pool_stresstest0(void **state) {
     (void) state; /* unused */
 
     const unsigned num_pools = 200;
@@ -2334,17 +2331,6 @@ void test_pool_stresstest(void **state) {
 
     pool_pt pools[num_pools];
     void *allocations[num_pools][num_allocations];
-
-    /*
-     * NOTE: This will work iff the address of the allocation
-     * in the pool is returned to the user instead of the
-     * address of the allocation record. Since allocation records
-     * are a part of the nodes, when the node heap is reallocated
-     * the node addresses shift with it, and so do the allocation
-     * record addresses. The allocation addresses on the pool
-     * remain the same, however, so they can be returned to the
-     * user and gotten from the user upon request for deletion.
-     */
 
     /*
      * Testing dynamic reallocation of pool structures:
@@ -2365,9 +2351,6 @@ void test_pool_stresstest(void **state) {
         assert_non_null(pools[pix]);
         // allocate pool
         unsigned allocated = 0;
-
-        printf("DEBUG (%s, %d): allocations in pool %d\n", __FILE__, __LINE__, pix);
-
         for (unsigned aix=0; aix < num_allocations; ++aix) {
             allocations[pix][aix] =
                     mem_new_alloc(pools[pix], (aix + 1) * min_alloc_size);
@@ -2376,16 +2359,11 @@ void test_pool_stresstest(void **state) {
                 INFO("ASSERT WILL FAIL at pix = %u, aix = %u, allocated = %u\n", pix, aix, allocated);
             }
             assert_non_null(allocations[pix][aix]);
-
-            printf("%x, ", (unsigned int) allocations[pix][aix]);
         }
-        printf("\n\n");
-        printf("DEBUG: Deleting every other allocation for pool %d\n", pix);
 
         // delete every other allocation
         for (unsigned aix=0; aix < num_allocations; ++aix) {
             if (aix % 2) {
-                printf("DEBUG: Delering allocation at %x\n", (unsigned int) allocations[pix][aix]);
                 assert_int_equal(
                         mem_del_alloc(pools[pix], allocations[pix][aix]),
                         ALLOC_OK);
@@ -2396,9 +2374,6 @@ void test_pool_stresstest(void **state) {
 
     // delete pools
     for (unsigned pix=0; pix < num_pools; ++pix) {
-
-        printf("DEBUG: Deleting remaining allocations for pool %d\n", pix);
-
         // delete pool's allocations
         for (unsigned aix=0; aix < num_allocations; ++aix) {
             if (allocations[pix][aix]) {
@@ -2423,6 +2398,7 @@ void test_pool_stresstest(void **state) {
 
 int run_test_suite() {
     const struct CMUnitTest tests[] = {
+            // General tests
             cmocka_unit_test(test_pool_store_smoketest),
             cmocka_unit_test(test_pool_smoketest),
 
@@ -2431,6 +2407,7 @@ int run_test_suite() {
             cmocka_unit_test_setup_teardown(test_pool_ff_metadata, pool_ff_setup, pool_ff_teardown),
             cmocka_unit_test_setup_teardown(test_pool_bf_metadata, pool_bf_setup, pool_bf_teardown),
 
+            // First-fit tests
             cmocka_unit_test_setup_teardown(test_pool_scenario00, pool_ff_setup, pool_ff_teardown),
             cmocka_unit_test_setup_teardown(test_pool_scenario01, pool_ff_setup, pool_ff_teardown),
             cmocka_unit_test_setup_teardown(test_pool_scenario02, pool_ff_setup, pool_ff_teardown),
@@ -2443,6 +2420,7 @@ int run_test_suite() {
             cmocka_unit_test_setup_teardown(test_pool_scenario09, pool_ff_setup, pool_ff_teardown),
             cmocka_unit_test_setup_teardown(test_pool_scenario10, pool_ff_setup, pool_ff_teardown),
 
+            // Best-fit tests
             cmocka_unit_test_setup_teardown(test_pool_scenario11, pool_bf_setup, pool_bf_teardown),
             cmocka_unit_test_setup_teardown(test_pool_scenario12, pool_bf_setup, pool_bf_teardown),
             cmocka_unit_test_setup_teardown(test_pool_scenario13, pool_bf_setup, pool_bf_teardown),
@@ -2453,16 +2431,13 @@ int run_test_suite() {
             cmocka_unit_test_setup_teardown(test_pool_scenario18, pool_bf_setup, pool_bf_teardown),
             cmocka_unit_test_setup_teardown(test_pool_scenario19, pool_bf_setup, pool_bf_teardown),
 
-            // TODO (in progress)
-            // Need incremental tests of data structure growth
-            // do not uncomment until the project is changed to return the allocation address
-//            cmocka_unit_test(test_pool_stresstest),
+            // Stress tests
+            cmocka_unit_test(test_pool_stresstest0),
     };
 
     return cmocka_run_group_tests_name("pool_test_suite", tests, NULL, NULL);
 }
 
-/* future editions */
-// TODO stress test: many pools, many allocations, many gaps (requires project refactoring, see NOTE in test body)
-// TODO test memory leaks: any way to do it w/o having to rewrite the source file?
-// TODO fix the final PASSED line of std::cerr output to the end of the file (?)
+// TODO
+// cmocka memory leak testing
+// flush stdout before stderr?
