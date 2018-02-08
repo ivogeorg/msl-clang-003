@@ -3,17 +3,19 @@ This is our todo list of functions that still need to be completed.
 TODO Functions
 
 John
-1. mem_free(); /*started*/
+1. mem_init() /* Believe I am finished */
 
-2. mem_pool_open(size_t size, alloc_policy policy);
+2. mem_free(); /*Believe I am finished */
 
-3. mem_pool_close(pool_pt pool);
+3. mem_pool_open(size_t size, alloc_policy policy) /*starting */
 
-4. mem_new_alloc(pool_pt pool, size_t size);
+4. mem_pool_close(pool_pt pool);
 
-5. mem_del_alloc(pool_pt pool, void *alloc);
+5 mem_new_alloc(pool_pt pool, size_t size);
 
-6. mem_inspect_pool(pool_pt pool, pool_segment_pt *segments, unsigned *num_segments);
+6. mem_del_alloc(pool_pt pool, void *alloc);
+
+7. mem_inspect_pool(pool_pt pool, pool_segment_pt *segments, unsigned *num_segments);
 
 Phi
 1. _mem_resize_pool_store()

@@ -140,11 +140,14 @@ alloc_status mem_free()
 
     /* pool_store is an array of pointers
      * first loop through each element of array
-     * if non-empty call mem_pool_close
-     * to clear out struct
      */
     for(int i = 0; i < pool_store_size; i++)
     {
+        // if not null we need to deallocate
+        if(pool_store[i] != NULL)
+        {
+            mem_pool_close((pool_pt) pool_store[i]);
+        }
 
     }
     // free pool_store and set to null
