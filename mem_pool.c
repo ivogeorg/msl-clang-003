@@ -94,27 +94,67 @@ static alloc_status _mem_sort_gap_ix(pool_mgr_pt pool_mgr);
 static alloc_status _mem_invalidate_gap_ix(pool_mgr_pt pool_mgr);
 
 
-
 /****************************************/
 /*                                      */
 /* Definitions of user-facing functions */
 /*                                      */
 /****************************************/
-alloc_status mem_init() {
+alloc_status mem_init()
+{
     // ensure that it's called only once until mem_free
     // allocate the pool store with initial capacity
     // note: holds pointers only, other functions to allocate/deallocate
 
-    return ALLOC_FAIL;
+    // first check if pool_store == NULL
+    if(pool_store == NULL)
+    {
+        /* empty so we need to init
+         * first point pool_store to a pool of memory
+         * then set initial capacity
+         * then make the size of pool store 0
+         *
+         */
+        pool_store = (pool_mgr_pt*) calloc(MEM_POOL_STORE_INIT_CAPACITY, sizeof(pool_mgr_pt));
+        pool_store_capacity = MEM_POOL_STORE_INIT_CAPACITY;
+        pool_store_size = 0;
+        // assert pool_store not null
+        assert(pool_store != NULL);
+        return ALLOC_OK;
+    }
+    // non-empty, which means it has already been called
+    return ALLOC_CALLED_AGAIN;
 }
 
-alloc_status mem_free() {
+alloc_status mem_free()
+{
     // ensure that it's called only once for each mem_init
     // make sure all pool managers have been deallocated
     // can free the pool store array
     // update static variables
 
-    return ALLOC_FAIL;
+    // first check if pool_store == NULL
+    if(pool_store == NULL)
+    {
+        return ALLOC_CALLED_AGAIN;
+    }
+
+    /* pool_store is an array of pointers
+     * first loop through each element of array
+     * if non-empty call mem_pool_close
+     * to clear out struct
+     */
+    for(int i = 0; i < pool_store_size; i++)
+    {
+
+    }
+    // free pool_store and set to null
+    free(pool_store);
+    pool_store == NULL;
+
+    // update static variables
+    pool_store_size = 0;
+    pool_store_capacity = 0;
+    return ALLOC_OK;
 }
 
 pool_pt mem_pool_open(size_t size, alloc_policy policy) {
@@ -134,6 +174,14 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
     //   initialize pool mgr
     //   link pool mgr to pool store
     // return the address of the mgr, cast to (pool_pt)
+
+    if(pool_store == NULL)
+    {
+        return NULL;
+    }
+
+
+
 
     return NULL;
 }
