@@ -114,7 +114,7 @@ alloc_status mem_init()
          * then make the size of pool store 0
          *
          */
-        pool_store = (pool_mgr_pt*) calloc(MEM_POOL_STORE_INIT_CAPACITY, sizeof(pool_mgr_pt));
+        pool_store = (pool_mgr_pt*)malloc(MEM_POOL_STORE_INIT_CAPACITY, sizeof(pool_mgr_pt));
         pool_store_capacity = MEM_POOL_STORE_INIT_CAPACITY;
         pool_store_size = 0;
         // assert pool_store not null
@@ -178,13 +178,42 @@ pool_pt mem_pool_open(size_t size, alloc_policy policy) {
     //   link pool mgr to pool store
     // return the address of the mgr, cast to (pool_pt)
 
+    // check to see if pool store needs to be allocated
+    // we don't need to do anything unless ALLOC_FAIL returned
+
     if(pool_store == NULL)
     {
         return NULL;
     }
 
+    
+    if(_mem_resize_pool_store() == ALLOC_FAIL)
+    {
+        /* in this case we have an error
+         * return NULL
+         */
+        return NULL;
+    }
 
+    // allocate a new mem pool mgr
+    pool_mgr_pt mgm = (pool_mgr_pt)malloc(sizeof(pool_mgr_pt));
+    // check if successful
+    if(mgm == NULL)
+    {
+        return NULL;
+    }
 
+    // allocate new memory pool
+    mem_new_alloc((pool_pt)mgm, sizeof(pool_pt));
+    // check if successful
+    if(mgm->pool.mem == NULL)
+    {
+        free(mgm);
+        return NULL;
+    }
+
+    // allocate new node heap
+    node_pt nnh = (node_pt)malloc(sizeof(node_pt));
 
     return NULL;
 }
