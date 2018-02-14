@@ -31,25 +31,6 @@ Table of Contents
     * [Diagram 5 After a second allocation](#diagram-5-after-a-second-allocation)
     * [Diagram 6 After a deallocation](#diagram-6-after-a-deallocation)
     * [Diagram 7 After another allocation](#diagram-7-after-another-allocation)
-
-After `mem_new_alloc(0x7fab09804200, 100)`
-
-![alt text](img/mem_pool-diag-04--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 100)")
-
-### Diagram 5 _After two allocations_
-
-After `mem_new_alloc(0x7fab09804200, 1000)`
-
-![alt text](img/mem_pool-diag-05--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 1000)")
-
-### Diagram 6 _After a deallocations_
-
-After `mem_del_alloc(0x7fab09804200, 0x7fab09404e10)`
-
-![alt text](img/mem_pool-diag-06--after-mem_del_alloc.jpg "After mem_del_alloc(0x7fab09804200, 0x7fab09404e10)")
-
-### Diagram 7 _After another allocation_
-
   * [TODO](#todo)
 
 # C Programming Assignment 3
