@@ -28,7 +28,7 @@ Table of Contents
     * [Diagram 2 After initialization](#diagram-2-after-initialization)
     * [Diagram 3 After opening a pool](#diagram-3-after-opening-a-pool)
     * [Diagram 4 After one allocation](#diagram-4-after-one-allocation)
-    * [Diagram 5 After a second allocation](#diagram-5-after-a-second-allocation)
+    * [Diagram 5 After two allocations](#diagram-5-after-two-allocations)
     * [Diagram 6 After a deallocation](#diagram-6-after-a-deallocation)
     * [Diagram 7 After another allocation](#diagram-7-after-another-allocation)
   * [TODO](#todo)
