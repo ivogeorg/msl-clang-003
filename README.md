@@ -363,7 +363,7 @@ After `mem_new_alloc(0x7fab09804200, 1000)`
 
 ![alt text](img/mem_pool-diag-05--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 1000)")
 
-### Diagram 6 _After a deallocations_
+### Diagram 6 _After a deallocation_
 
 After `mem_del_alloc(0x7fab09804200, 0x7fab09404e10)`
 
