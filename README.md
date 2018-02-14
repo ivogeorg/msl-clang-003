@@ -330,8 +330,8 @@ _this section concerns future iterations of the project_
 
 1. ~Contents for easy navigation.~
 2. ~Refactoring to return `mem` not `alloc` to allow pool reallocation and stress testing of multiple large pools and pool growth.~
-3. Reference implementation of on-demand data structure expansion and **bonus** tests.
-4. Drawings of the metadata and allocation scenarios, and embed in README.
+3. ~Reference implementation of on-demand data structure expansion and **bonus** tests.~
+4. ~Drawings of the metadata and allocation scenarios, and embed in README.~
 5. cmocka 1.1.1 memory leak detection.
 6. Doxygen for headers, which are part of assignment. [Documentation](http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html). [Example](http://fnch.users.sourceforge.net/doxygen_c.html).
 7. Review `TODO`-s in the code.
