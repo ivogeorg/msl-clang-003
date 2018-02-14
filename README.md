@@ -328,13 +328,13 @@ static unsigned pool_store_capacity = 0;
 
 Below are 7 diagrams that show the state of the memory pool library data structures after certain library function calls.
 
-### Diagram 1 Before initialization
+### Diagram 1 _Before initialization_
 
 Before `mem_init()`
 
 ![alt text](img/mem_pool-diag-01--before-mem_init.jpg "Before mem_init()")
 
-### Diagram 2 After initialization
+### Diagram 2 _After initialization_
 
 After `mem_init()`
 
