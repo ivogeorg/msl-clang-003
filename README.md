@@ -26,6 +26,30 @@ Table of Contents
   * [Visualization](#visualization)
     * [Diagram 1 Before intialization](#diagram-1-before-initialization)
     * [Diagram 2 After initialization](#diagram-2-after-initialization)
+    * [Diagram 3 After opening a pool](#diagram-3-after-opening-a-pool)
+    * [Diagram 4 After one allocation](#diagram-4-after-one-allocation)
+    * [Diagram 5 After a second allocation](#diagram-5-after-a-second-allocation)
+    * [Diagram 6 After a deallocation](#diagram-6-after-a-deallocation)
+    * [Diagram 7 After another allocation](#diagram-7-after-another-allocation)
+
+After `mem_new_alloc(0x7fab09804200, 100)`
+
+![alt text](img/mem_pool-diag-04--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 100)")
+
+### Diagram 5 _After two allocations_
+
+After `mem_new_alloc(0x7fab09804200, 1000)`
+
+![alt text](img/mem_pool-diag-05--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 1000)")
+
+### Diagram 6 _After a deallocations_
+
+After `mem_del_alloc(0x7fab09804200, 0x7fab09404e10)`
+
+![alt text](img/mem_pool-diag-06--after-mem_del_alloc.jpg "After mem_del_alloc(0x7fab09804200, 0x7fab09404e10)")
+
+### Diagram 7 _After another allocation_
+
   * [TODO](#todo)
 
 # C Programming Assignment 3
@@ -339,10 +363,35 @@ Before `mem_init()`
 After `mem_init()`
 
 ![alt text](img/mem_pool-diag-02--after-mem_init.jpg "After mem_init()")
+
+### Diagram 3 _After opening a pool_
+
+After `mem_pool_open(1000000, FIRST_FIT)`
+
 ![alt text](img/mem_pool-diag-03--after-mem_pool_open.jpg "After mem_pool_open(1000000, FIRST_FIT)")
+
+### Diagram 4 _After one allocation_
+
+After `mem_new_alloc(0x7fab09804200, 100)`
+
 ![alt text](img/mem_pool-diag-04--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 100)")
+
+### Diagram 5 _After two allocations_
+
+After `mem_new_alloc(0x7fab09804200, 1000)`
+
 ![alt text](img/mem_pool-diag-05--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 1000)")
+
+### Diagram 6 _After a deallocations_
+
+After `mem_del_alloc(0x7fab09804200, 0x7fab09404e10)`
+
 ![alt text](img/mem_pool-diag-06--after-mem_del_alloc.jpg "After mem_del_alloc(0x7fab09804200, 0x7fab09404e10)")
+
+### Diagram 7 _After another allocation_
+
+After `mem_new_alloc(0x7fab09804200, 80)`
+
 ![alt text](img/mem_pool-diag-07--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 80)")
 
 * * *
