@@ -23,6 +23,9 @@ Table of Contents
     * [Data Structures](#data-structures)
     * [Static Functions](#static-functions)
     * [Static Variables](#static-variables)
+  * [Visualization](#visualization)
+    * [Diagram 1 Before intialization](#diagram-1-before-initialization)
+    * [Diagram 2 After initialization](#diagram-2-after-initialization)
   * [TODO](#todo)
 
 # C Programming Assignment 3
@@ -320,6 +323,27 @@ static pool_mgr_pt *pool_store = NULL;
 static unsigned pool_store_size = 0;
 static unsigned pool_store_capacity = 0;
 ```
+
+## Visualization
+
+Below are 7 diagrams that show the state of the memory pool library data structures after certain library function calls.
+
+### Diagram 1 Before initialization
+
+Before `mem_init()`
+
+![alt text](img/mem_pool-diag-01--before-mem_init.jpg "Before mem_init()")
+
+### Diagram 2 After initialization
+
+After `mem_init()`
+
+![alt text](img/mem_pool-diag-02--after-mem_init.jpg "After mem_init()")
+![alt text](img/mem_pool-diag-03--after-mem_pool_open.jpg "After mem_pool_open(1000000, FIRST_FIT)")
+![alt text](img/mem_pool-diag-04--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 100)")
+![alt text](img/mem_pool-diag-05--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 1000)")
+![alt text](img/mem_pool-diag-06--after-mem_del_alloc.jpg "After mem_del_alloc(0x7fab09804200, 0x7fab09404e10)")
+![alt text](img/mem_pool-diag-07--after-mem_new_alloc.jpg "After mem_new_alloc(0x7fab09804200, 80)")
 
 * * *
 
